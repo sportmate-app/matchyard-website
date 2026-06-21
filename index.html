@@ -39,17 +39,18 @@
 <style>
   :root{
     /* MatchYard brand — dark-first */
-    --lime:#C6FF00; --teal:#00E5C3;
-    --gradient:linear-gradient(135deg,#C6FF00,#00E5C3);
+    --lime:#A3E635; --teal:#00E5C3;
+    --gradient:linear-gradient(135deg,#A3E635,#00E5C3);
     /* Neutrals (dark) */
     --ink:#F2F4F7; --ink-soft:#9BA6B8; --muted:#9BA6B8;
     --bg:#0A1120; --bg-alt:#141B28; --line:#2A3445;
     --card:#1B2330;
     /* Accent aliases — primary=lime, secondary=teal. on-accent = ink-navy text on lime */
-    --indigo:#C6FF00; --indigo-600:#00E5C3; --violet:#00E5C3;
+    --indigo:#A3E635; --indigo-600:#00E5C3; --violet:#00E5C3;
     --emerald:#00E5C3; --on-accent:#0A1120;
     --shadow-sm:0 1px 2px rgba(0,0,0,.4), 0 4px 12px rgba(0,0,0,.35);
     --shadow-lg:0 24px 60px -20px rgba(0,0,0,.6), 0 8px 24px rgba(0,0,0,.4);
+    --glow-lime:0 0 0 1px rgba(163,230,53,.25), 0 18px 50px -18px rgba(163,230,53,.35);
     --r:18px;
     --display:"Space Grotesk", system-ui, sans-serif;
     --body:"Space Grotesk", system-ui, sans-serif;
@@ -63,8 +64,12 @@
   h1,h2,h3{font-family:var(--display);letter-spacing:-.02em;line-height:1.05;color:var(--ink)}
   .eyebrow{font-family:var(--display);font-weight:700;font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:var(--indigo)}
   .btn{display:inline-flex;align-items:center;gap:.5rem;font-family:var(--display);font-weight:700;border-radius:999px;padding:.85rem 1.5rem;font-size:.98rem;transition:transform .15s ease, box-shadow .2s ease, background .2s ease;cursor:pointer;border:0}
-  .btn-primary{background:var(--lime);color:var(--on-accent);box-shadow:0 8px 24px -6px rgba(198,255,0,.45)}
+  .btn-primary{position:relative;overflow:hidden;background:var(--lime);color:var(--on-accent);box-shadow:0 8px 24px -6px rgba(163,230,53,.45)}
+  .btn-primary::after{content:"";position:absolute;top:0;left:-120%;width:60%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.55),transparent);transform:skewX(-18deg);transition:none}
   .btn-primary:hover{filter:brightness(1.08);transform:translateY(-2px)}
+  .btn-primary:hover::after{animation:shine .9s ease}
+  @keyframes shine{0%{left:-120%}100%{left:160%}}
+  .btn-lg{padding:1rem 1.8rem;font-size:1.05rem}
   .btn-ghost{background:transparent;color:var(--ink);border:1.5px solid var(--line)}
   .btn-ghost:hover{border-color:var(--teal);color:var(--teal)}
   :focus-visible{outline:3px solid var(--violet);outline-offset:3px;border-radius:6px}
@@ -73,9 +78,12 @@
   .skip-link{position:absolute;left:-9999px;top:0;background:var(--lime);color:var(--on-accent);padding:.6rem 1rem;z-index:100;border-radius:0 0 var(--r) 0;font-family:var(--display);font-weight:700;font-size:.9rem}
   .skip-link:focus{left:0}
 
-  /* NAV */
-  header.nav{position:sticky;top:0;z-index:50;background:rgba(10,17,32,.78);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
-  .nav-inner{display:flex;align-items:center;justify-content:space-between;height:72px}
+  /* NAV — translucent, condenses on scroll */
+  header.nav{position:sticky;top:0;z-index:50;background:rgba(10,17,32,.55);backdrop-filter:blur(6px);border-bottom:1px solid transparent;transition:background .3s ease, border-color .3s ease, box-shadow .3s ease}
+  header.nav.scrolled{background:rgba(10,17,32,.85);backdrop-filter:blur(16px) saturate(140%);border-bottom-color:var(--line);box-shadow:0 8px 30px -18px rgba(0,0,0,.8)}
+  .nav-inner{display:flex;align-items:center;justify-content:space-between;height:80px;transition:height .3s ease}
+  header.nav.scrolled .nav-inner{height:64px}
+  header.nav.scrolled .logo-img{height:26px}
   .logo{display:flex;align-items:center;gap:.6rem;font-family:var(--display);font-weight:700;font-size:1.25rem;letter-spacing:.01em}
   .logo-img{height:30px;width:auto;display:block}
   .logo-mark{width:30px;height:30px;border-radius:9px;background:var(--gradient);display:grid;place-items:center;color:var(--on-accent);font-size:1rem}
@@ -87,56 +95,69 @@
 
   /* HERO */
   .hero{position:relative;overflow:hidden}
-  .hero::before{content:"";position:absolute;inset:0;background:
-     radial-gradient(60% 50% at 78% 30%, rgba(198,255,0,.18), transparent 70%),
-     radial-gradient(50% 40% at 10% 0%, rgba(0,229,195,.10), transparent 70%);z-index:0}
-  .hero-grid{position:relative;z-index:1;display:grid;grid-template-columns:1.05fr .95fr;gap:3rem;align-items:center;padding:5.5rem 0 5rem}
-  .hero h1{font-size:clamp(2.5rem,5.4vw,4rem);font-weight:800}
-  .hero .lead{font-size:clamp(1.05rem,1.6vw,1.25rem);color:var(--ink-soft);margin:1.4rem 0 2rem;max-width:30ch}
+  /* Aurora — slow-moving lime/teal radial blooms behind the hero */
+  .aurora{position:absolute;inset:-20% -10% auto -10%;height:140%;z-index:0;pointer-events:none;filter:blur(8px)}
+  .aurora span{position:absolute;border-radius:50%;opacity:.55;mix-blend-mode:screen;will-change:transform}
+  .aurora .a1{width:46vw;height:46vw;left:48%;top:-6%;background:radial-gradient(circle at 50% 50%,rgba(163,230,53,.55),transparent 62%);animation:aurora1 18s ease-in-out infinite alternate}
+  .aurora .a2{width:42vw;height:42vw;left:-6%;top:8%;background:radial-gradient(circle at 50% 50%,rgba(0,229,195,.42),transparent 62%);animation:aurora2 22s ease-in-out infinite alternate}
+  .aurora .a3{width:34vw;height:34vw;left:62%;top:42%;background:radial-gradient(circle at 50% 50%,rgba(0,229,195,.30),transparent 60%);animation:aurora3 26s ease-in-out infinite alternate}
+  @keyframes aurora1{0%{transform:translate(0,0) scale(1)}100%{transform:translate(-7%,6%) scale(1.18)}}
+  @keyframes aurora2{0%{transform:translate(0,0) scale(1)}100%{transform:translate(9%,-5%) scale(1.22)}}
+  @keyframes aurora3{0%{transform:translate(0,0) scale(1)}100%{transform:translate(-6%,-7%) scale(1.15)}}
+  .hero-grid{position:relative;z-index:1;display:grid;grid-template-columns:1.05fr .95fr;gap:3rem;align-items:center;padding:5rem 0 5rem}
+  /* Big MY monogram hero moment */
+  .hero-mark{position:relative;width:clamp(112px,13vw,168px);height:clamp(112px,13vw,168px);margin-bottom:1.6rem;display:grid;place-items:center}
+  .hero-mark::before{content:"";position:absolute;inset:-38%;border-radius:50%;background:radial-gradient(circle,rgba(163,230,53,.30),rgba(0,229,195,.16) 45%,transparent 70%);filter:blur(6px);z-index:0;animation:markglow 6s ease-in-out infinite}
+  @keyframes markglow{0%,100%{transform:scale(1);opacity:.85}50%{transform:scale(1.12);opacity:1}}
+  .hero-mark img{position:relative;z-index:1;width:100%;height:100%;filter:drop-shadow(0 14px 30px rgba(0,0,0,.45))}
+  .hero h1{font-size:clamp(2.6rem,5.6vw,4.2rem);font-weight:800}
+  .hero h1 .grad{background:var(--gradient);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .hero .lead{font-size:clamp(1.05rem,1.6vw,1.28rem);color:var(--ink-soft);margin:1.5rem 0 2rem;max-width:34ch}
   .hero-actions{display:flex;gap:.9rem;flex-wrap:wrap;align-items:center}
   .pill-note{display:inline-flex;align-items:center;gap:.5rem;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:.4rem .85rem;font-size:.82rem;font-weight:600;color:var(--ink-soft);box-shadow:var(--shadow-sm);margin-bottom:1.4rem}
   .pill-note b{color:var(--teal)}
   .dot{width:8px;height:8px;border-radius:50%;background:var(--emerald);box-shadow:0 0 0 4px rgba(0,229,195,.18)}
 
-  /* PHONE MOCKUP */
-  .phone-stage{display:grid;place-items:center;position:relative}
-  .phone{position:relative;width:300px;height:610px;background:#0B1020;border-radius:44px;padding:12px;box-shadow:var(--shadow-lg);animation:float 6s ease-in-out infinite}
-  @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
-  .phone-screen{width:100%;height:100%;background:var(--bg-alt);border-radius:34px;overflow:hidden;position:relative;display:flex;flex-direction:column}
-  .notch{position:absolute;top:0;left:50%;transform:translateX(-50%);width:120px;height:26px;background:#0B1020;border-radius:0 0 16px 16px;z-index:5}
-  .app-top{display:flex;align-items:center;justify-content:space-between;padding:1.4rem 1.1rem .6rem;font-family:var(--display)}
-  .app-top .logo-mark{width:24px;height:24px;border-radius:7px;font-size:.8rem}
-  .app-top-title{font-weight:800;font-size:1.05rem}
-  .app-top svg{width:22px;height:22px;stroke:var(--muted)}
+  /* STORE BADGES (Coming soon) */
+  .badges{display:flex;gap:.8rem;flex-wrap:wrap;margin-top:1.9rem}
+  .badge-link{position:relative;display:inline-block;border-radius:13px;transition:transform .18s ease, box-shadow .2s ease;outline-offset:4px}
+  .badge-link:hover{transform:translateY(-2px);box-shadow:0 14px 30px -14px rgba(0,0,0,.7)}
+  .badge-link img,.badge-link svg{height:54px;width:auto;display:block;border-radius:13px}
+  .badge-link .soon{position:absolute;top:-9px;right:-9px;background:var(--lime);color:var(--on-accent);font-family:var(--display);font-weight:700;font-size:.58rem;letter-spacing:.04em;text-transform:uppercase;padding:.18rem .5rem;border-radius:999px;box-shadow:0 4px 12px -2px rgba(163,230,53,.6);pointer-events:none}
 
-  /* INTERACTIVE SWIPE CARD */
-  .swipe-card-container{margin:.2rem .9rem;flex:1;position:relative}
-  .swipe-card{border-radius:24px;overflow:hidden;background:#fff;box-shadow:0 10px 30px rgba(11,16,32,.12);display:flex;flex-direction:column;position:absolute;inset:0;cursor:grab;user-select:none;touch-action:none;will-change:transform}
-  .swipe-card.grabbing{cursor:grabbing}
-  .swipe-card.fly-right{transition:transform .45s ease,opacity .45s ease;transform:translateX(120%) rotate(18deg)!important;opacity:0}
-  .swipe-card.fly-left{transition:transform .45s ease,opacity .45s ease;transform:translateX(-120%) rotate(-18deg)!important;opacity:0}
-  .swipe-card.snap-back{transition:transform .35s cubic-bezier(.175,.885,.32,1.275)}
-  .swipe-label{position:absolute;top:50%;z-index:10;font-family:var(--display);font-weight:800;font-size:1.6rem;padding:.4rem .9rem;border-radius:10px;border:3.5px solid;opacity:0;pointer-events:none;transition:opacity .12s ease}
-  .swipe-label.lbl-like{right:14px;color:#00E5C3;border-color:#00E5C3;transform:translateY(-50%) rotate(12deg)}
-  .swipe-label.lbl-pass{left:14px;color:#EF4444;border-color:#EF4444;transform:translateY(-50%) rotate(-12deg)}
-  .swipe-photo{flex:1;position:relative}
-  .swipe-photo::after{content:"";position:absolute;inset:0;background:radial-gradient(120% 80% at 50% 0%, transparent 40%, rgba(11,16,32,.55) 100%)}
-  .court-lines{position:absolute;inset:0;opacity:.25}
-  .match-tag{position:absolute;top:12px;left:12px;z-index:3;background:rgba(10,17,32,.82);color:var(--lime);font-family:var(--display);font-weight:800;font-size:.72rem;padding:.3rem .6rem;border-radius:999px}
-  .swipe-meta{position:absolute;left:0;right:0;bottom:0;z-index:3;padding:1rem;color:#fff}
-  .swipe-meta .nm{font-family:var(--display);font-weight:800;font-size:1.35rem;line-height:1}
-  .swipe-meta .dist{font-size:.82rem;opacity:.9;margin-top:.25rem}
-  .chips{display:flex;gap:.4rem;flex-wrap:wrap;margin-top:.6rem}
-  .chip{background:rgba(255,255,255,.18);backdrop-filter:blur(4px);border:1px solid rgba(255,255,255,.3);color:#fff;font-size:.72rem;font-weight:600;padding:.25rem .55rem;border-radius:999px}
-  .swipe-actions{display:flex;justify-content:center;gap:1.6rem;padding:.9rem 0 1rem}
-  .fab{width:54px;height:54px;border-radius:50%;display:grid;place-items:center;background:#fff;box-shadow:0 6px 16px rgba(11,16,32,.14);font-size:1.4rem;cursor:pointer;transition:transform .15s ease}
-  .fab:hover{transform:scale(1.1)}
-  .fab.pass{color:#EF4444}.fab.like{color:var(--on-accent);background:var(--gradient);box-shadow:0 8px 20px -4px rgba(0,229,195,.5)}
-  .float-card{position:absolute;background:var(--card);color:var(--ink);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow-lg);padding:.7rem .9rem;display:flex;align-items:center;gap:.6rem;font-weight:600;font-size:.85rem;z-index:6}
-  .fc-match{top:8%;right:-6%;animation:fc-pop .5s ease 1s both}
-  .fc-now{bottom:12%;left:-10%;animation:fc-pop .5s ease 1.5s both}
+  /* PHONE MOCKUP — dark iPhone frame, screenshot-swappable */
+  .phone-stage{display:grid;place-items:center;position:relative}
+  .phone{position:relative;width:304px;height:620px;background:linear-gradient(160deg,#222a38,#0B1020);border-radius:48px;padding:13px;box-shadow:var(--shadow-lg),0 0 0 1px rgba(255,255,255,.04) inset;animation:float 6s ease-in-out infinite;will-change:transform}
+  .phone::after{content:"";position:absolute;inset:0;border-radius:48px;padding:1.5px;background:linear-gradient(150deg,rgba(255,255,255,.18),transparent 40%,transparent 70%,rgba(163,230,53,.18));-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
+  @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+  .phone-screen{width:100%;height:100%;background:var(--bg);border-radius:36px;overflow:hidden;position:relative;display:flex;flex-direction:column}
+  /* Real-screenshot slot: drop a PNG into #shot-discover and it covers the mockup */
+  .shot{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:8;display:block}
+  .shot[hidden]{display:none!important}
+  .notch{position:absolute;top:0;left:50%;transform:translateX(-50%);width:118px;height:28px;background:#0B1020;border-radius:0 0 18px 18px;z-index:7}
+  .app-top{display:flex;align-items:center;justify-content:space-between;padding:2.1rem 1.1rem .7rem;font-family:var(--display)}
+  .app-top .logo-mark{width:24px;height:24px;border-radius:7px;font-size:.8rem}
+  .app-top-title{font-weight:800;font-size:1.15rem}
+  .app-top .row{display:flex;align-items:center;gap:.6rem}
+  .app-top svg{width:20px;height:20px;stroke:var(--muted);fill:none;stroke-width:2}
+  /* DISCOVER FEED MOCKUP (stand-in until shot-discover.png exists) */
+  .feed{flex:1;overflow:hidden;padding:.2rem .9rem 1rem;display:flex;flex-direction:column;gap:.7rem}
+  .gcard{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:.85rem .9rem;box-shadow:0 8px 18px -12px rgba(0,0,0,.6)}
+  .gcard .top{display:flex;align-items:center;gap:.55rem}
+  .sport-chip{width:34px;height:34px;border-radius:11px;display:grid;place-items:center;font-size:1.1rem;flex-shrink:0;background:rgba(163,230,53,.12);border:1px solid rgba(163,230,53,.22)}
+  .gcard .ttl{font-family:var(--display);font-weight:700;font-size:.92rem;color:var(--ink);line-height:1.1}
+  .gcard .sub{font-size:.72rem;color:var(--muted);margin-top:.12rem}
+  .gcard .meta{display:flex;align-items:center;justify-content:space-between;margin-top:.7rem}
+  .gcard .count{display:inline-flex;align-items:center;gap:.35rem;font-size:.74rem;font-weight:600;color:var(--ink-soft)}
+  .gcard .count i{width:6px;height:6px;border-radius:50%;background:var(--teal);font-style:normal}
+  .join-pill{font-family:var(--display);font-weight:700;font-size:.72rem;color:var(--on-accent);background:var(--lime);padding:.32rem .8rem;border-radius:999px;box-shadow:0 6px 14px -6px rgba(163,230,53,.6)}
+  .join-pill.ghost{background:transparent;color:var(--teal);border:1px solid rgba(0,229,195,.4);box-shadow:none}
+  /* Floating proof chips around the phone */
+  .float-card{position:absolute;background:var(--card);color:var(--ink);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow-lg);padding:.7rem .9rem;display:flex;align-items:center;gap:.6rem;font-weight:600;font-size:.85rem;z-index:6;will-change:transform}
+  .fc-match{top:7%;right:-7%;animation:fc-pop .5s ease 1s both}
+  .fc-now{bottom:11%;left:-11%;animation:fc-pop .5s ease 1.5s both}
   @keyframes fc-pop{0%{opacity:0;transform:scale(.7)}100%{opacity:1;transform:scale(1)}}
-  .fc-ico{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;color:#fff}
+  .fc-ico{width:34px;height:34px;border-radius:10px;display:grid;place-items:center}
 
   /* ANIMATED TRUST MARQUEE */
   .trust{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--bg-alt);overflow:hidden}
@@ -186,6 +207,46 @@
   .pcard h3{font-size:1.25rem;font-weight:700}
   .pcard p{color:var(--ink-soft);margin-top:.5rem;font-size:.98rem}
 
+  /* BENTO FEATURE GRID */
+  .bento{display:grid;grid-template-columns:repeat(6,1fr);grid-auto-rows:minmax(150px,auto);gap:1.2rem}
+  .bcard{position:relative;overflow:hidden;background:var(--card);border:1px solid var(--line);border-radius:20px;padding:1.6rem;display:flex;flex-direction:column;justify-content:flex-end;gap:.4rem;transition:transform .25s ease, box-shadow .25s ease, border-color .25s ease}
+  .bcard::before{content:"";position:absolute;inset:0;background:radial-gradient(70% 80% at 80% 0%,rgba(163,230,53,.10),transparent 60%);opacity:0;transition:opacity .3s ease}
+  .bcard:hover{transform:translateY(-5px);border-color:rgba(163,230,53,.35);box-shadow:var(--glow-lime)}
+  .bcard:hover::before{opacity:1}
+  .bcard .b-ico{width:46px;height:46px;border-radius:13px;display:grid;place-items:center;background:rgba(163,230,53,.12);border:1px solid rgba(163,230,53,.22);font-size:1.35rem;margin-bottom:auto;position:relative;z-index:1}
+  .bcard h3{font-size:1.15rem;font-weight:700;position:relative;z-index:1}
+  .bcard p{color:var(--ink-soft);font-size:.92rem;position:relative;z-index:1}
+  .bcard .tag{position:absolute;top:1.2rem;right:1.2rem;font-family:var(--display);font-weight:700;font-size:.62rem;letter-spacing:.06em;text-transform:uppercase;color:var(--teal);background:rgba(0,229,195,.1);border:1px solid rgba(0,229,195,.25);padding:.2rem .55rem;border-radius:999px;z-index:1}
+  .b-wide{grid-column:span 4}.b-tall{grid-column:span 2;grid-row:span 2}
+  .b-sm{grid-column:span 2}.b-half{grid-column:span 3}
+  .b-feature{justify-content:flex-start;background:linear-gradient(160deg,rgba(163,230,53,.10),var(--card) 55%)}
+  .b-feature .big{font-family:var(--display);font-weight:800;font-size:clamp(1.6rem,2.6vw,2.2rem);line-height:1.05;margin:.4rem 0;background:var(--gradient);-webkit-background-clip:text;background-clip:text;color:transparent;position:relative;z-index:1}
+
+  /* FEATURE PHONES (small, screenshot-swappable) */
+  .feat-phones{display:flex;gap:1.4rem;justify-content:center;flex-wrap:wrap;margin-top:1rem}
+  .mini-phone{position:relative;width:172px;height:360px;background:linear-gradient(160deg,#222a38,#0B1020);border-radius:30px;padding:9px;box-shadow:var(--shadow-lg);transition:transform .25s ease, box-shadow .25s ease}
+  .mini-phone:nth-child(even){margin-top:1.8rem}
+  .mini-phone:hover{transform:translateY(-6px);box-shadow:var(--glow-lime)}
+  .mini-phone .mp-screen{position:relative;width:100%;height:100%;border-radius:23px;overflow:hidden;background:var(--bg);display:flex;flex-direction:column}
+  .mini-phone .shot{border-radius:0}
+  .mp-cap{text-align:center;font-family:var(--display);font-weight:700;font-size:.82rem;color:var(--ink-soft);margin-top:.7rem}
+  /* tiny in-phone mockups */
+  .mp-hd{padding:.85rem .8rem .5rem;font-family:var(--display);font-weight:800;font-size:.82rem;color:var(--ink);display:flex;align-items:center;gap:.4rem}
+  .mp-body{flex:1;padding:0 .65rem .65rem;display:flex;flex-direction:column;gap:.5rem}
+  .mp-tile{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:.6rem .65rem}
+  .mp-tile .t1{font-family:var(--display);font-weight:700;font-size:.72rem;color:var(--ink)}
+  .mp-tile .t2{font-size:.62rem;color:var(--muted);margin-top:.15rem}
+  .mp-pill{display:inline-block;margin-top:.4rem;font-size:.58rem;font-weight:700;padding:.18rem .5rem;border-radius:999px;background:var(--lime);color:var(--on-accent)}
+  .mp-pill.gh{background:rgba(0,229,195,.12);color:var(--teal)}
+  .mp-bubble{max-width:80%;padding:.4rem .6rem;border-radius:12px;font-size:.66rem;line-height:1.3}
+  .mp-b-them{background:#283142;color:var(--ink);align-self:flex-start}
+  .mp-b-me{background:var(--lime);color:var(--on-accent);align-self:flex-end}
+  .mp-prof{align-items:center;text-align:center;gap:.35rem;display:flex;flex-direction:column;padding-top:.4rem}
+  .mp-av{width:54px;height:54px;border-radius:50%;background:var(--gradient)}
+  .mp-stars{color:var(--lime);font-size:.8rem;letter-spacing:1px}
+  .mp-match{align-items:center;text-align:center;display:flex;flex-direction:column;gap:.35rem;padding-top:.6rem}
+  .mp-ring{width:64px;height:64px;border-radius:50%;display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:1rem;color:var(--on-accent);background:var(--gradient)}
+
   /* HOW IT WORKS */
   .how{background:var(--bg-alt)}
   .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem;counter-reset:s}
@@ -199,11 +260,11 @@
   .nearby{background:var(--bg);overflow:hidden}
   .nearby-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center}
   .map-container{position:relative;width:100%;aspect-ratio:1;max-width:460px;margin:0 auto}
-  .map-bg{position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle at 50% 50%,rgba(198,255,0,.07) 0%,rgba(198,255,0,.03) 50%,transparent 70%)}
+  .map-bg{position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle at 50% 50%,rgba(163,230,53,.07) 0%,rgba(163,230,53,.03) 50%,transparent 70%)}
   .map-grid{position:absolute;inset:10%;opacity:.08}
   .map-ring{position:absolute;border:1.5px dashed var(--indigo);border-radius:50%;opacity:.12}
   .map-ring-1{inset:15%}.map-ring-2{inset:30%}.map-ring-3{inset:45%}
-  .map-you{position:absolute;top:50%;left:50%;width:18px;height:18px;background:var(--indigo);border-radius:50%;transform:translate(-50%,-50%);z-index:4;box-shadow:0 0 0 4px rgba(198,255,0,.25)}
+  .map-you{position:absolute;top:50%;left:50%;width:18px;height:18px;background:var(--indigo);border-radius:50%;transform:translate(-50%,-50%);z-index:4;box-shadow:0 0 0 4px rgba(163,230,53,.25)}
   .map-you::after{content:"";position:absolute;inset:-8px;border-radius:50%;border:2px solid var(--indigo);animation:you-pulse 2s ease-out infinite;opacity:.5}
   @keyframes you-pulse{0%{transform:scale(1);opacity:.5}100%{transform:scale(2.8);opacity:0}}
   .map-you-label{position:absolute;top:50%;left:50%;transform:translate(-50%,16px);font-family:var(--display);font-weight:700;font-size:.7rem;color:var(--indigo);white-space:nowrap;z-index:4}
@@ -226,7 +287,7 @@
   .bubble{padding:.45rem .7rem;border-radius:14px;font-size:.72rem;max-width:75%}
   .b-them{background:#283142;color:var(--ink)}
   .b-me{background:var(--lime);color:var(--on-accent);margin-left:auto}
-  .av{width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,#C6FF00,#00E5C3);flex-shrink:0}
+  .av{width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,#A3E635,#00E5C3);flex-shrink:0}
   .now-item{margin:.6rem .7rem;padding:.6rem;border:1px solid var(--line);border-radius:12px;opacity:0;transform:translateX(-12px);transition:opacity .4s ease,transform .4s ease}
   .now-item.show{opacity:1;transform:translateX(0)}
   .now-item .s{font-family:var(--display);font-weight:700;font-size:.82rem}
@@ -265,7 +326,7 @@
   .contact-item .label{display:block;font-family:var(--display);font-weight:700;font-size:.85rem;color:var(--ink);margin-bottom:.25rem}
   .contact-item a{color:var(--indigo);font-weight:500;font-size:.98rem}
   .contact-item a:hover{text-decoration:underline}
-  .callout{background:rgba(198,255,0,.08);border:1px solid rgba(198,255,0,.2);border-radius:var(--r);padding:1.5rem 1.8rem}
+  .callout{background:rgba(163,230,53,.08);border:1px solid rgba(163,230,53,.2);border-radius:var(--r);padding:1.5rem 1.8rem}
   .callout p{color:var(--ink-soft);font-size:.98rem;line-height:1.6}
   .callout a{color:var(--indigo);font-weight:600}
   .callout a:hover{text-decoration:underline}
@@ -280,16 +341,16 @@
   .rm-node{width:28px;height:28px;border-radius:50%;border:4px solid var(--line);background:var(--bg);margin-bottom:1.2rem;position:relative;transition:border-color .4s ease, box-shadow .4s ease}
   .rm-phase.done .rm-node{border-color:var(--indigo);background:var(--indigo)}
   .rm-phase.done .rm-node::after{content:"✓";position:absolute;inset:0;display:grid;place-items:center;color:var(--on-accent);font-size:.7rem;font-weight:800}
-  .rm-phase.active .rm-node{border-color:var(--lime);background:var(--bg);box-shadow:0 0 0 6px rgba(198,255,0,.2)}
+  .rm-phase.active .rm-node{border-color:var(--lime);background:var(--bg);box-shadow:0 0 0 6px rgba(163,230,53,.2)}
   .rm-phase.active .rm-node::before{content:"";position:absolute;inset:4px;border-radius:50%;background:var(--indigo);animation:rm-pulse 2s ease-in-out infinite}
   @keyframes rm-pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(.6);opacity:.6}}
   .rm-phase.upcoming .rm-node{border-color:var(--line);background:var(--bg)}
   .rm-badge{display:inline-block;font-family:var(--display);font-weight:700;font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;padding:.2rem .55rem;border-radius:999px;margin-bottom:.6rem}
-  .rm-phase.active .rm-badge{background:rgba(198,255,0,.1);color:var(--indigo)}
+  .rm-phase.active .rm-badge{background:rgba(163,230,53,.1);color:var(--indigo)}
   .rm-phase.done .rm-badge{background:rgba(0,229,195,.1);color:var(--emerald)}
   .rm-phase.upcoming .rm-badge{background:var(--line);color:var(--muted)}
   .rm-card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:1.3rem;width:100%;max-width:200px;transition:transform .2s ease, box-shadow .2s ease}
-  .rm-phase.active .rm-card{border-color:var(--indigo);box-shadow:0 8px 24px rgba(198,255,0,.12)}
+  .rm-phase.active .rm-card{border-color:var(--indigo);box-shadow:0 8px 24px rgba(163,230,53,.12)}
   .rm-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg)}
   .rm-icon{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;margin:0 auto .7rem;font-size:1.2rem}
   .rm-card h4{font-family:var(--display);font-weight:700;font-size:.95rem;margin-bottom:.15rem}
@@ -321,12 +382,13 @@
   .final::before{content:"";position:absolute;inset:0;padding:1.5px;border-radius:28px;background:var(--gradient);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
   .final::after{content:"";position:absolute;inset:0;background:radial-gradient(60% 70% at 50% 0%, rgba(0,229,195,.16), transparent 70%);pointer-events:none}
   .final h2{font-size:clamp(2rem,4vw,3rem);position:relative;background:var(--gradient);-webkit-background-clip:text;background-clip:text;color:transparent}
-  .final p{position:relative;color:var(--ink-soft);max-width:48ch;margin:1rem auto 2rem;font-size:1.1rem}
-  .store-row{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;position:relative}
-  .store{display:inline-flex;align-items:center;gap:.7rem;background:#0B1020;color:#F2F4F7;border:1px solid var(--line);border-radius:14px;padding:.7rem 1.2rem;font-weight:600}
-  .store small{display:block;font-size:.68rem;opacity:.7;line-height:1}
-  .store b{font-family:var(--display);font-size:1.05rem}
-  .final .store:first-child{background:var(--lime);color:var(--on-accent);border-color:var(--lime)}
+  .final p{position:relative;color:var(--ink-soft);max-width:48ch;margin:1rem auto 1.6rem;font-size:1.1rem}
+  .waitlist-form{position:relative;display:flex;gap:.6rem;flex-wrap:wrap;justify-content:center;max-width:480px;margin:0 auto}
+  .waitlist-form input{flex:1;min-width:220px;background:var(--bg);border:1.5px solid var(--line);border-radius:999px;color:var(--ink);font-family:var(--body);font-size:1rem;padding:.85rem 1.3rem}
+  .waitlist-form input::placeholder{color:var(--muted)}
+  .waitlist-form input:focus{outline:none;border-color:var(--teal);box-shadow:0 0 0 3px rgba(0,229,195,.18)}
+  .wl-note{position:relative;color:var(--muted)!important;font-size:.85rem!important;margin:1rem auto 0!important}
+  .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
 
   /* FOOTER */
   footer{padding:3.5rem 0 2.5rem;color:var(--muted)}
@@ -346,7 +408,8 @@
     .hamburger{display:flex}
     .hero-grid{grid-template-columns:1fr;gap:2.5rem;padding:3rem 0 4rem;text-align:center}
     .hero .lead{margin-inline:auto}
-    .hero-actions,.pill-note{justify-content:center}
+    .hero-actions,.pill-note,.badges{justify-content:center}
+    .hero-mark{margin-inline:auto}
     .pillars,.steps,.tgrid{grid-template-columns:1fr}
     .step .line{display:none}
     .showcase{grid-template-columns:1fr;gap:2.5rem}
@@ -354,9 +417,21 @@
     .float-card{display:none}
     .contact-row{gap:1.5rem}
     .stats-inner{gap:2rem 3rem}
+    /* Bento stacks to a simple 2-col / 1-col flow */
+    .bento{grid-template-columns:1fr}
+    .b-wide,.b-tall,.b-sm,.b-half{grid-column:auto;grid-row:auto}
   }
-  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+  @media (max-width:560px){
+    .badge-link img,.badge-link svg{height:48px}
+    .mini-phone:nth-child(even){margin-top:0}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+    .aurora,.btn-primary::after{display:none}
+  }
 </style>
+<!-- No-JS fallback: reveal-on-scroll relies on JS; without it, show everything. -->
+<noscript><style>.reveal{opacity:1!important;transform:none!important}.shot{display:none!important}</style></noscript>
 </head>
 <body>
 
@@ -374,41 +449,86 @@
       <a href="#support">Support</a>
     </nav>
     <div class="nav-cta">
-      <a href="#download" class="btn btn-ghost">Log in</a>
-      <a href="#download" class="btn btn-primary">Get the app</a>
-      <button class="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+      <a href="#how" class="btn btn-ghost">How it works</a>
+      <a href="#waitlist" class="btn btn-primary">Join waitlist</a>
+      <button class="hamburger" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
     </div>
   </div>
 </header>
 
 <!-- ==================== HERO ==================== -->
 <section class="hero">
+  <!-- Animated lime/teal aurora glow (decorative) -->
+  <div class="aurora" aria-hidden="true"><span class="a1"></span><span class="a2"></span><span class="a3"></span></div>
   <div class="wrap hero-grid">
     <div>
       <span class="pill-note"><span class="dot"></span> Now matching players in your area</span>
-      <h1>Find your game.<br>Find your people.</h1>
+      <!-- Big MY monogram hero moment -->
+      <div class="hero-mark"><img src="logo-mark.svg" alt="MatchYard logo" width="168" height="168" /></div>
+      <h1>Find your game.<br><span class="grad">Find your people.</span></h1>
       <p class="lead">MatchYard connects you with players nearby who share your sport, your skill level, and your schedule — so the next game is always within reach.</p>
       <div class="hero-actions">
-        <a href="#download" class="btn btn-primary">Get started free →</a>
+        <a href="#waitlist" class="btn btn-primary btn-lg">Get started →</a>
         <a href="#how" class="btn btn-ghost">See how it works</a>
+      </div>
+      <!-- Store badges (pre-launch: Coming soon, link to waitlist) -->
+      <div class="badges" aria-label="App availability">
+        <a class="badge-link" href="#waitlist" aria-label="App Store — coming soon">
+          <img src="badge-app-store.svg" alt="Download on the App Store — coming soon" width="180" height="54" loading="lazy" />
+          <span class="soon">Coming soon</span>
+        </a>
+        <a class="badge-link" href="#waitlist" aria-label="Google Play — coming soon">
+          <img src="badge-google-play.svg" alt="Get it on Google Play — coming soon" width="180" height="54" loading="lazy" />
+          <span class="soon">Coming soon</span>
+        </a>
       </div>
     </div>
     <div class="phone-stage">
-      <div class="float-card fc-match"><span class="fc-ico" style="background:linear-gradient(135deg,#C6FF00,#00E5C3);color:#0A1120">✓</span> It's a match!</div>
-      <div class="float-card fc-now"><span class="fc-ico" style="background:#C6FF00;color:#0A1120">⚡</span> 3 players free at&nbsp;6pm</div>
-      <div class="phone">
+      <div class="float-card fc-match"><span class="fc-ico" style="background:linear-gradient(135deg,#A3E635,#00E5C3);color:#0A1120">✓</span> It's a match!</div>
+      <div class="float-card fc-now"><span class="fc-ico" style="background:#A3E635;color:#0A1120">⚡</span> 3 players free at&nbsp;6pm</div>
+      <div class="phone" id="heroPhone">
         <div class="notch"></div>
         <div class="phone-screen">
+          <!-- swap: replace this whole mockup by setting a src on the img below -->
+          <!-- swap: <img id="shot-discover" class="shot" src="shots/shot-discover.png" alt="MatchYard Discover feed"> -->
+          <img id="shot-discover" class="shot" alt="MatchYard Discover feed" hidden />
+          <!-- High-fidelity CSS stand-in for the Discover feed -->
           <div class="app-top">
-            <span class="app-top-title">Discover</span>
-            <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3-3"/></svg>
+            <span class="row"><span class="app-top-title">Discover</span></span>
+            <span class="row">
+              <svg viewBox="0 0 24 24"><path d="M3 6h18M6 12h12M10 18h4"/></svg>
+              <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3-3"/></svg>
+            </span>
           </div>
-          <div class="swipe-card-container" id="swipeContainer">
-            <!-- Cards injected by JS -->
-          </div>
-          <div class="swipe-actions">
-            <div class="fab pass" id="btnPass">✕</div>
-            <div class="fab like" id="btnLike">✓</div>
+          <div class="feed">
+            <div class="gcard">
+              <div class="top">
+                <span class="sport-chip">⚽</span>
+                <div><div class="ttl">5v5 Football</div><div class="sub">Riverside Pitch · 2.1 km</div></div>
+              </div>
+              <div class="meta"><span class="count"><i></i> 6/10 in</span><span class="join-pill">Join</span></div>
+            </div>
+            <div class="gcard">
+              <div class="top">
+                <span class="sport-chip">🎾</span>
+                <div><div class="ttl">Tennis · Singles</div><div class="sub">Eastside Courts · 0.9 km</div></div>
+              </div>
+              <div class="meta"><span class="count"><i></i> 1/2 in</span><span class="join-pill">I'm interested</span></div>
+            </div>
+            <div class="gcard">
+              <div class="top">
+                <span class="sport-chip">🏀</span>
+                <div><div class="ttl">Pickup Hoops</div><div class="sub">Downtown Rec · 1.4 km</div></div>
+              </div>
+              <div class="meta"><span class="count"><i></i> 8/10 in</span><span class="join-pill">Join</span></div>
+            </div>
+            <div class="gcard">
+              <div class="top">
+                <span class="sport-chip">🥒</span>
+                <div><div class="ttl">Pickleball</div><div class="sub">Maple Park · 3.2 km</div></div>
+              </div>
+              <div class="meta"><span class="count"><i></i> 2/4 in</span><span class="join-pill ghost">I'm interested</span></div>
+            </div>
           </div>
         </div>
       </div>
@@ -451,23 +571,23 @@
 <div class="stats" id="statsSection">
   <div class="wrap stats-inner">
     <div class="stat">
-      <div class="stat-val"><span class="stat-num" data-target="500">0</span><span class="stat-suffix">+</span></div>
-      <span class="stat-label">Players joined</span>
-      <div class="stat-bar"></div>
-    </div>
-    <div class="stat">
-      <div class="stat-val"><span class="stat-num" data-target="12">0</span></div>
+      <div class="stat-val"><span class="stat-num" data-target="17">0</span></div>
       <span class="stat-label">Sports supported</span>
       <div class="stat-bar"></div>
     </div>
     <div class="stat">
       <div class="stat-val"><span class="stat-num" data-target="3">0</span></div>
-      <span class="stat-label">Launch cities</span>
+      <span class="stat-label">Skill levels matched</span>
       <div class="stat-bar"></div>
     </div>
     <div class="stat">
-      <div class="stat-val"><span class="stat-num" data-target="95">0</span><span class="stat-suffix">%</span></div>
-      <span class="stat-label">Match satisfaction</span>
+      <div class="stat-val"><span class="stat-num" data-target="0">0</span></div>
+      <span class="stat-label">Cost to join</span>
+      <div class="stat-bar"></div>
+    </div>
+    <div class="stat">
+      <div class="stat-val"><span class="stat-num" data-target="100">0</span><span class="stat-suffix">%</span></div>
+      <span class="stat-label">Sport — never a dating app</span>
       <div class="stat-bar"></div>
     </div>
   </div>
@@ -483,12 +603,12 @@
     </div>
     <div class="pillars">
       <div class="pcard reveal">
-        <div class="pico" style="background:linear-gradient(135deg,#C6FF00,#00E5C3)"><svg viewBox="0 0 24 24" style="stroke:#0A1120"><path d="M12 2 4 7v6c0 5 3.5 7.5 8 9 4.5-1.5 8-4 8-9V7z"/><path d="m9 12 2 2 4-4"/></svg></div>
+        <div class="pico" style="background:linear-gradient(135deg,#A3E635,#00E5C3)"><svg viewBox="0 0 24 24" style="stroke:#0A1120"><path d="M12 2 4 7v6c0 5 3.5 7.5 8 9 4.5-1.5 8-4 8-9V7z"/><path d="m9 12 2 2 4-4"/></svg></div>
         <h3>Matched by how you play</h3>
         <p>We weigh your sport, skill level, and whether you're after competitive or casual — so every match is someone you'd actually want to rally with.</p>
       </div>
       <div class="pcard reveal">
-        <div class="pico" style="background:linear-gradient(135deg,#00E5C3,#C6FF00)"><svg viewBox="0 0 24 24" style="stroke:#0A1120"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18M8 3v4M16 3v4"/></svg></div>
+        <div class="pico" style="background:linear-gradient(135deg,#00E5C3,#A3E635)"><svg viewBox="0 0 24 24" style="stroke:#0A1120"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18M8 3v4M16 3v4"/></svg></div>
         <h3>People who fit your schedule</h3>
         <p>Set when you're free and we surface players whose availability overlaps yours. No more matches you can never actually meet up with.</p>
       </div>
@@ -497,6 +617,105 @@
         <h3>Play today, not someday</h3>
         <p>Post a Play Now request and players nearby looking for a game right now can jump in. Spontaneous pickup, organized in minutes.</p>
       </div>
+    </div>
+
+    <!-- Bento feature grid -->
+    <div class="bento" style="margin-top:1.4rem">
+      <div class="bcard b-wide b-feature reveal">
+        <span class="b-ico">🎯</span>
+        <div class="big">Skill-matched, every time.</div>
+        <p>Beginner, intermediate or advanced — we line you up with players who'll make the game worth your while, not a mismatch.</p>
+      </div>
+      <div class="bcard b-sm reveal">
+        <span class="tag">Live</span>
+        <span class="b-ico">📍</span>
+        <h3>Players near you</h3>
+        <p>Closest, most-available players surface first.</p>
+      </div>
+      <div class="bcard b-sm reveal">
+        <span class="b-ico">💬</span>
+        <h3>Lock in the plan</h3>
+        <p>Chat, propose a time &amp; court, and you're set.</p>
+      </div>
+      <div class="bcard b-half reveal">
+        <span class="b-ico">⚡</span>
+        <h3>Play Now</h3>
+        <p>Time-boxed pickup games happening today, near you — jump in with one tap.</p>
+      </div>
+      <div class="bcard b-half reveal">
+        <span class="b-ico">🛡️</span>
+        <h3>Built to feel safe</h3>
+        <p>Phone verification, photo review, and one-tap report &amp; block come standard.</p>
+      </div>
+    </div>
+
+    <!-- Feature phones (small, screenshot-swappable) -->
+    <div class="feat-phones reveal">
+      <!-- 1 · Play Now -->
+      <figure style="margin:0">
+        <div class="mini-phone">
+          <div class="mp-screen">
+            <!-- swap: <img id="shot-game" class="shot" src="shots/shot-game.png" alt="MatchYard Play Now"> -->
+            <img id="shot-game" class="shot" alt="MatchYard Play Now" hidden />
+            <div class="mp-hd">⚡ Play Now</div>
+            <div class="mp-body">
+              <div class="mp-tile"><div class="t1">🏀 Pickup hoops</div><div class="t2">1.1 km · today 6:00pm</div><span class="mp-pill">1 spot left</span></div>
+              <div class="mp-tile"><div class="t1">🎾 Hitting partner</div><div class="t2">0.6 km · flexible</div><span class="mp-pill gh">Open</span></div>
+            </div>
+          </div>
+        </div>
+        <figcaption class="mp-cap">Play Now</figcaption>
+      </figure>
+      <!-- 2 · Chat -->
+      <figure style="margin:0">
+        <div class="mini-phone">
+          <div class="mp-screen">
+            <!-- swap: <img id="shot-chat" class="shot" src="shots/shot-chat.png" alt="MatchYard chat"> -->
+            <img id="shot-chat" class="shot" alt="MatchYard chat" hidden />
+            <div class="mp-hd">💬 Maya</div>
+            <div class="mp-body">
+              <span class="mp-bubble mp-b-them">Both intermediate 🎾</span>
+              <span class="mp-bubble mp-b-me">Riverside, Tue 6pm?</span>
+              <span class="mp-bubble mp-b-them">Perfect — see you!</span>
+            </div>
+          </div>
+        </div>
+        <figcaption class="mp-cap">In-app chat</figcaption>
+      </figure>
+      <!-- 3 · AI Match -->
+      <figure style="margin:0">
+        <div class="mini-phone">
+          <div class="mp-screen">
+            <!-- swap: <img id="shot-match" class="shot" src="shots/shot-match.png" alt="MatchYard match"> -->
+            <img id="shot-match" class="shot" alt="MatchYard match" hidden />
+            <div class="mp-hd">✦ Your match</div>
+            <div class="mp-body mp-match">
+              <div class="mp-ring">94%</div>
+              <div class="t1" style="font-family:var(--display);font-weight:700;font-size:.8rem">Maya, 27</div>
+              <div class="t2" style="font-size:.62rem;color:var(--muted)">🎾 Tennis · Intermediate</div>
+              <span class="mp-pill">It's a match!</span>
+            </div>
+          </div>
+        </div>
+        <figcaption class="mp-cap">Smart matching</figcaption>
+      </figure>
+      <!-- 4 · Profile -->
+      <figure style="margin:0">
+        <div class="mini-phone">
+          <div class="mp-screen">
+            <!-- swap: <img id="shot-profile" class="shot" src="shots/shot-profile.png" alt="MatchYard profile"> -->
+            <img id="shot-profile" class="shot" alt="MatchYard profile" hidden />
+            <div class="mp-hd">Profile</div>
+            <div class="mp-body mp-prof">
+              <div class="mp-av"></div>
+              <div class="t1" style="font-size:.8rem">Alex · 31</div>
+              <div class="mp-stars">★★★★★</div>
+              <div class="mp-tile" style="width:100%"><div class="t1">🏀 Basketball</div><div class="t2">Advanced · weekends</div></div>
+            </div>
+          </div>
+        </div>
+        <figcaption class="mp-cap">Player profile</figcaption>
+      </figure>
     </div>
   </div>
 </section>
@@ -549,7 +768,7 @@
       <div class="map-ring map-ring-2"></div>
       <div class="map-ring map-ring-3"></div>
       <!-- Grid lines -->
-      <svg class="map-grid" viewBox="0 0 200 200" fill="none" stroke="#C6FF00" stroke-width=".5">
+      <svg class="map-grid" viewBox="0 0 200 200" fill="none" stroke="#A3E635" stroke-width=".5">
         <line x1="0" y1="40" x2="200" y2="40"/><line x1="0" y1="80" x2="200" y2="80"/>
         <line x1="0" y1="120" x2="200" y2="120"/><line x1="0" y1="160" x2="200" y2="160"/>
         <line x1="40" y1="0" x2="40" y2="200"/><line x1="80" y1="0" x2="80" y2="200"/>
@@ -562,8 +781,8 @@
       <div class="map-you-label">You</div>
       <!-- Player dots -->
       <div class="map-dot" style="width:14px;height:14px;top:30%;left:38%">
-        <div class="dot-core" style="background:#C6FF00"></div>
-        <div class="dot-ping" style="border:2px solid #C6FF00"></div>
+        <div class="dot-core" style="background:#A3E635"></div>
+        <div class="dot-ping" style="border:2px solid #A3E635"></div>
         <span class="dot-label">🎾 2.1 km</span>
       </div>
       <div class="map-dot" style="width:12px;height:12px;top:25%;left:62%">
@@ -577,8 +796,8 @@
         <span class="dot-label">🥒 3.2 km</span>
       </div>
       <div class="map-dot" style="width:13px;height:13px;top:40%;left:72%">
-        <div class="dot-core" style="background:#C6FF00"></div>
-        <div class="dot-ping" style="border:2px solid #C6FF00;animation-delay:1.5s"></div>
+        <div class="dot-core" style="background:#A3E635"></div>
+        <div class="dot-ping" style="border:2px solid #A3E635;animation-delay:1.5s"></div>
         <span class="dot-label">🎾 0.9 km</span>
       </div>
       <div class="map-dot" style="width:11px;height:11px;top:72%;left:65%">
@@ -591,8 +810,8 @@
         <div class="dot-ping" style="border:2px solid #00E5C3;animation-delay:1.8s"></div>
       </div>
       <div class="map-dot" style="width:8px;height:8px;top:58%;left:22%">
-        <div class="dot-core" style="background:#C6FF00"></div>
-        <div class="dot-ping" style="border:2px solid #C6FF00;animation-delay:2.1s"></div>
+        <div class="dot-core" style="background:#A3E635"></div>
+        <div class="dot-ping" style="border:2px solid #A3E635;animation-delay:2.1s"></div>
       </div>
       <div class="map-dot" style="width:10px;height:10px;top:38%;left:28%">
         <div class="dot-core" style="background:#F59E0B"></div>
@@ -646,11 +865,11 @@
     <div class="tgrid">
       <div class="tcard reveal">
         <p>"Moved to a new city knowing nobody. Found a weekly tennis partner in four days."</p>
-        <div class="tperson"><span class="mono" style="background:linear-gradient(135deg,#C6FF00,#00E5C3);color:#0A1120">MR</span><span class="meta"><b>Maya R.</b><span>Tennis · Austin</span></span></div>
+        <div class="tperson"><span class="mono" style="background:linear-gradient(135deg,#A3E635,#00E5C3);color:#0A1120">MR</span><span class="meta"><b>Maya R.</b><span>Tennis · Austin</span></span></div>
       </div>
       <div class="tcard reveal">
         <p>"I needed someone at my level. A steady hitting partner later, my pickleball game has never been sharper."</p>
-        <div class="tperson"><span class="mono" style="background:linear-gradient(135deg,#00E5C3,#C6FF00);color:#0A1120">DK</span><span class="meta"><b>Devin K.</b><span>Pickleball · San Diego</span></span></div>
+        <div class="tperson"><span class="mono" style="background:linear-gradient(135deg,#00E5C3,#A3E635);color:#0A1120">DK</span><span class="meta"><b>Devin K.</b><span>Pickleball · San Diego</span></span></div>
       </div>
       <div class="tcard reveal">
         <p>"Posted a Play Now for 6pm hoops and had a full court by five. Couldn't be easier."</p>
@@ -677,7 +896,7 @@
         <div>
           <span class="rm-badge">Now building</span>
           <div class="rm-card">
-            <div class="rm-icon" style="background:linear-gradient(135deg,#C6FF00,#00E5C3);color:#fff">🏗️</div>
+            <div class="rm-icon" style="background:linear-gradient(135deg,#A3E635,#00E5C3);color:#fff">🏗️</div>
             <h4>Foundation</h4>
             <div class="rm-date">Summer 2026</div>
             <ul class="rm-features">
@@ -697,7 +916,7 @@
         <div>
           <span class="rm-badge">Up next</span>
           <div class="rm-card">
-            <div class="rm-icon" style="background:linear-gradient(135deg,#00E5C3,#C6FF00);color:#fff">💬</div>
+            <div class="rm-icon" style="background:linear-gradient(135deg,#00E5C3,#A3E635);color:#fff">💬</div>
             <h4>Core Features</h4>
             <div class="rm-date">Late Summer 2026</div>
             <ul class="rm-features">
@@ -735,7 +954,7 @@
         <div>
           <span class="rm-badge">Winter 2026</span>
           <div class="rm-card">
-            <div class="rm-icon" style="background:linear-gradient(135deg,#C6FF00,#00E5C3);color:#fff">🚀</div>
+            <div class="rm-icon" style="background:linear-gradient(135deg,#A3E635,#00E5C3);color:#fff">🚀</div>
             <h4>App Store Launch</h4>
             <div class="rm-date">Nov 2026 – Jan 2027</div>
             <ul class="rm-features">
@@ -823,12 +1042,24 @@
 <!-- ==================== FINAL CTA ==================== -->
 <section id="download">
   <div class="wrap">
-    <div class="final reveal">
+    <div class="final reveal" id="waitlist">
       <h2>Your next game starts here.</h2>
-      <p>Join MatchYard, build your profile, and find your first match this week.</p>
-      <div class="store-row">
-        <a href="https://apps.apple.com/app/matchyard/id0000000000" class="store"><span style="font-size:1.4rem"></span><span><small>Download on the</small><b>App Store</b></span></a>
-        <a href="#" class="store"><span style="font-size:1.4rem">▶</span><span><small>Get it on</small><b>Google Play</b></span></a>
+      <p>MatchYard launches on iOS first. Add your email and we'll tell you the moment it goes live — and which sports are active near you.</p>
+      <form class="waitlist-form" id="waitlistForm" novalidate>
+        <label class="sr-only" for="wl-email">Email address</label>
+        <input id="wl-email" type="email" name="email" inputmode="email" autocomplete="email" placeholder="you@example.com" required />
+        <button type="submit" class="btn btn-primary btn-lg">Join the waitlist</button>
+      </form>
+      <p class="wl-note" id="wlNote" role="status">No spam — just one note when we launch. Unsubscribe anytime.</p>
+      <div class="badges" style="justify-content:center;margin-top:1.6rem" aria-label="App availability">
+        <span class="badge-link" aria-label="App Store — coming soon">
+          <img src="badge-app-store.svg" alt="Download on the App Store — coming soon" width="180" height="54" loading="lazy" />
+          <span class="soon">Coming soon</span>
+        </span>
+        <span class="badge-link" aria-label="Google Play — coming soon">
+          <img src="badge-google-play.svg" alt="Get it on Google Play — coming soon" width="180" height="54" loading="lazy" />
+          <span class="soon">Coming soon</span>
+        </span>
       </div>
     </div>
   </div>
@@ -879,98 +1110,61 @@
 (function(){
   'use strict';
 
-  /* ===== 1. INTERACTIVE SWIPE CARD ===== */
-  const profiles = [
-    { name:"Maya, 27", dist:"📍 2.3 km away · free weekday evenings", match:"94%", chips:["🎾 Tennis · Intermediate","🥒 Pickleball · Advanced"], grad:"linear-gradient(160deg,#C6FF00,#00E5C3)" },
-    { name:"Alex, 31", dist:"📍 1.8 km away · weekends", match:"89%", chips:["🏀 Basketball · Advanced","🏃 Running · Intermediate"], grad:"linear-gradient(160deg,#F59E0B,#00E5C3)" },
-    { name:"Jordan, 24", dist:"📍 3.1 km away · evenings", match:"91%", chips:["🥒 Pickleball · Beginner","🚴 Cycling · Advanced"], grad:"linear-gradient(160deg,#00E5C3,#C6FF00)" },
-    { name:"Sam, 29", dist:"📍 0.6 km away · mornings", match:"96%", chips:["🎾 Tennis · Advanced","🏸 Badminton · Intermediate"], grad:"linear-gradient(160deg,#00E5C3,#0A1120)" },
-    { name:"Riley, 26", dist:"📍 1.2 km away · flexible", match:"88%", chips:["⚽ Soccer · Intermediate","🏐 Volleyball · Beginner"], grad:"linear-gradient(160deg,#C6FF00,#F59E0B)" },
-  ];
-  let pIdx = 0;
-  const container = document.getElementById('swipeContainer');
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion:reduce)').matches;
 
-  function buildCard(p){
-    const card = document.createElement('div');
-    card.className = 'swipe-card';
-    card.innerHTML = `
-      <span class="swipe-label lbl-like">PLAY ✓</span>
-      <span class="swipe-label lbl-pass">SKIP ✕</span>
-      <div class="swipe-photo" style="background:${p.grad}">
-        <svg class="court-lines" viewBox="0 0 300 400" preserveAspectRatio="none"><rect x="40" y="40" width="220" height="320" fill="none" stroke="#fff" stroke-width="2"/><line x1="40" y1="200" x2="260" y2="200" stroke="#fff" stroke-width="2"/><line x1="150" y1="40" x2="150" y2="360" stroke="#fff" stroke-width="1.5"/></svg>
-        <span class="match-tag">${p.match} match</span>
-        <div class="swipe-meta">
-          <div class="nm">${p.name}</div>
-          <div class="dist">${p.dist}</div>
-          <div class="chips">${p.chips.map(c=>`<span class="chip">${c}</span>`).join('')}</div>
-        </div>
-      </div>`;
-    return card;
+  /* ===== 1. SCREENSHOT SLOTS ===== */
+  /* If a real PNG is dropped in (src set on a .shot img), it covers the CSS mockup.
+     Empty/unset slots stay hidden so only the stand-in shows. */
+  document.querySelectorAll('img.shot').forEach(img=>{
+    const reveal=()=>{ img.hidden=false; };
+    const hide=()=>{ img.hidden=true; };
+    if(img.getAttribute('src')){ img.complete && img.naturalWidth ? reveal() : (img.addEventListener('load',reveal,{once:true}), img.addEventListener('error',hide,{once:true})); }
+    else { img.hidden=true; }
+  });
+
+  /* ===== 1b. STICKY CONDENSING NAV ===== */
+  const nav = document.querySelector('header.nav');
+  let navTick=false;
+  function onNavScroll(){
+    if(navTick) return; navTick=true;
+    requestAnimationFrame(()=>{ nav.classList.toggle('scrolled', window.scrollY > 40); navTick=false; });
   }
+  window.addEventListener('scroll', onNavScroll, {passive:true});
+  onNavScroll();
 
-  function spawnCard(){
-    const p = profiles[pIdx % profiles.length];
-    const card = buildCard(p);
-    container.appendChild(card);
-    initDrag(card);
-    pIdx++;
-  }
-
-  function flyCard(dir){
-    const card = container.querySelector('.swipe-card:last-child');
-    if(!card || card.classList.contains('fly-left') || card.classList.contains('fly-right')) return;
-    card.classList.add(dir === 'right' ? 'fly-right' : 'fly-left');
-    card.addEventListener('transitionend',()=>{card.remove(); spawnCard();},{once:true});
-  }
-
-  function initDrag(card){
-    let startX=0, startY=0, dx=0, dragging=false;
-    const likeLabel = card.querySelector('.lbl-like');
-    const passLabel = card.querySelector('.lbl-pass');
-
-    function onStart(e){
-      dragging=true;
-      card.classList.add('grabbing');
-      card.classList.remove('snap-back');
-      const pt = e.touches ? e.touches[0] : e;
-      startX = pt.clientX; startY = pt.clientY;
+  /* ===== 1c. PARALLAX / TILT HERO PHONE ===== */
+  const heroPhone = document.getElementById('heroPhone');
+  if(heroPhone && !reduceMotion){
+    let pTick=false;
+    function onPhoneScroll(){
+      if(pTick) return; pTick=true;
+      requestAnimationFrame(()=>{
+        const y = window.scrollY;
+        if(y < 900){ // only while the hero is roughly in view
+          const shift = Math.min(y * 0.06, 36);
+          const tilt = Math.min(y * 0.012, 6);
+          heroPhone.style.transform = `translateY(${-shift}px) rotateX(${tilt}deg)`;
+        }
+        pTick=false;
+      });
     }
-    function onMove(e){
-      if(!dragging) return;
-      const pt = e.touches ? e.touches[0] : e;
-      dx = pt.clientX - startX;
-      const dy = pt.clientY - startY;
-      const rot = dx * 0.08;
-      card.style.transform = `translate(${dx}px, ${dy*0.3}px) rotate(${rot}deg)`;
-      const opacity = Math.min(Math.abs(dx)/80, 1);
-      likeLabel.style.opacity = dx > 20 ? opacity : 0;
-      passLabel.style.opacity = dx < -20 ? opacity : 0;
-    }
-    function onEnd(){
-      if(!dragging) return;
-      dragging=false;
-      card.classList.remove('grabbing');
-      likeLabel.style.opacity = 0;
-      passLabel.style.opacity = 0;
-      if(Math.abs(dx) > 70){
-        flyCard(dx > 0 ? 'right' : 'left');
-      } else {
-        card.classList.add('snap-back');
-        card.style.transform = '';
-      }
-      dx = 0;
-    }
-    card.addEventListener('mousedown', onStart);
-    card.addEventListener('touchstart', onStart, {passive:true});
-    window.addEventListener('mousemove', onMove);
-    window.addEventListener('touchmove', onMove, {passive:true});
-    window.addEventListener('mouseup', onEnd);
-    window.addEventListener('touchend', onEnd);
+    window.addEventListener('scroll', onPhoneScroll, {passive:true});
   }
 
-  spawnCard();
-  document.getElementById('btnPass').addEventListener('click',()=> flyCard('left'));
-  document.getElementById('btnLike').addEventListener('click',()=> flyCard('right'));
+  /* ===== 1d. WAITLIST FORM (front-end only stub) ===== */
+  const wlForm = document.getElementById('waitlistForm');
+  if(wlForm){
+    const note = document.getElementById('wlNote');
+    wlForm.addEventListener('submit', e=>{
+      e.preventDefault();
+      const input = document.getElementById('wl-email');
+      if(!input.value || !input.checkValidity()){ input.focus(); return; }
+      wlForm.querySelector('input').setAttribute('disabled','');
+      wlForm.querySelector('button').setAttribute('disabled','');
+      note.textContent = "You're on the list — we'll email you the moment MatchYard goes live. 🎾";
+      note.style.color = 'var(--teal)';
+    });
+  }
 
   /* ===== 2. ANIMATED STATS COUNTER ===== */
   const statsEl = document.getElementById('statsSection');
@@ -1059,19 +1253,26 @@
   });
 
   /* ===== 5. MOBILE NAV ===== */
-  document.querySelector('.hamburger').addEventListener('click',()=>{
-    const nl=document.querySelector('.nav-links');
-    if(nl.style.display==='flex'){nl.removeAttribute('style');return}
-    nl.style.cssText='display:flex;position:absolute;top:72px;left:0;right:0;background:var(--bg);flex-direction:column;padding:1.2rem 6vw;gap:1rem;border-bottom:1px solid var(--line);z-index:49';
+  const burger=document.querySelector('.hamburger');
+  const navList=document.querySelector('.nav-links');
+  function closeNav(){ navList.removeAttribute('style'); burger.setAttribute('aria-expanded','false'); }
+  burger.addEventListener('click',()=>{
+    if(navList.style.display==='flex'){ closeNav(); return; }
+    navList.style.cssText='display:flex;position:absolute;top:100%;left:0;right:0;background:var(--bg);flex-direction:column;padding:1.2rem 6vw;gap:1rem;border-bottom:1px solid var(--line);z-index:49';
+    burger.setAttribute('aria-expanded','true');
   });
+  navList.querySelectorAll('a').forEach(a=>a.addEventListener('click',closeNav));
 
-  /* ===== 6. SCROLL REVEAL ===== */
-  if(!window.matchMedia('(prefers-reduced-motion:reduce)').matches){
-    const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});
+  /* ===== 6. SCROLL REVEAL (IntersectionObserver, staggered children) ===== */
+  if(!reduceMotion && 'IntersectionObserver' in window){
+    // stagger direct children of grids so cards cascade in
+    ['.pillars','.bento','.steps','.tgrid','.feat-phones','.badges'].forEach(sel=>{
+      document.querySelectorAll(sel+' > *').forEach((el,i)=>{ el.style.transitionDelay=(i*70)+'ms'; });
+    });
+    const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12,rootMargin:'0px 0px -40px 0px'});
     document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
   } else {
     document.querySelectorAll('.reveal').forEach(el=>el.classList.add('in'));
-    // Still show chat/play items immediately
     document.querySelectorAll('.chat-row, .now-item').forEach(el=>el.classList.add('show'));
   }
 
