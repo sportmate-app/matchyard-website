@@ -110,7 +110,7 @@
   .hero-mark::before{content:"";position:absolute;inset:-38%;border-radius:50%;background:radial-gradient(circle,rgba(163,230,53,.30),rgba(0,229,195,.16) 45%,transparent 70%);filter:blur(6px);z-index:0;animation:markglow 6s ease-in-out infinite}
   @keyframes markglow{0%,100%{transform:scale(1);opacity:.85}50%{transform:scale(1.12);opacity:1}}
   .hero-mark img{position:relative;z-index:1;width:100%;height:100%;filter:drop-shadow(0 14px 30px rgba(0,0,0,.45))}
-  .hero h1{font-size:clamp(2.6rem,5.6vw,4.2rem);font-weight:800;filter:drop-shadow(0 2px 14px rgba(10,17,32,.55))}
+  .hero h1{font-size:clamp(1.9rem,4vw,3.1rem);font-weight:800;white-space:nowrap;filter:drop-shadow(0 2px 14px rgba(10,17,32,.55))}
   .hero h1 .grad{background:var(--gradient);-webkit-background-clip:text;background-clip:text;color:transparent}
   .hero .lead{font-size:clamp(1.05rem,1.6vw,1.28rem);color:var(--ink-soft);margin:1.5rem 0 2rem;max-width:34ch;text-shadow:0 1px 12px rgba(10,17,32,.75)}
   .hero-actions{display:flex;gap:.9rem;flex-wrap:wrap;align-items:center}
@@ -158,6 +158,28 @@
   .fc-now{bottom:11%;left:-11%;animation:fc-pop .5s ease 1.5s both}
   @keyframes fc-pop{0%{opacity:0;transform:scale(.7)}100%{opacity:1;transform:scale(1)}}
   .fc-ico{width:34px;height:34px;border-radius:10px;display:grid;place-items:center}
+
+  /* HERO PHONE — Tinder-style swipe deck */
+  .swipe-stage{flex:1;position:relative;overflow:hidden}
+  .swipe-card{position:absolute;left:50%;top:44%;width:82%;aspect-ratio:3/4.05;border-radius:22px;transform:translate(-50%,-50%);overflow:hidden;background:linear-gradient(160deg,#2a3344,#141b28);border:1px solid var(--line)}
+  .swipe-card.back2{transform:translate(-50%,-50%) translateY(22px) scale(.82);opacity:.4}
+  .swipe-card.back1{transform:translate(-50%,-50%) translateY(11px) scale(.91);opacity:.7}
+  .swipe-card.front{box-shadow:0 20px 44px -16px rgba(0,0,0,.7);animation:sc-demo 6.5s ease-in-out infinite;transform-origin:bottom center;z-index:2}
+  .sc-photo{position:absolute;inset:0;display:grid;place-items:center;background:radial-gradient(120% 75% at 50% 16%,rgba(163,230,53,.22),transparent 55%)}
+  .sc-sport{font-size:4.2rem;opacity:.9;filter:drop-shadow(0 10px 22px rgba(0,0,0,.45))}
+  .sc-info{position:absolute;left:0;right:0;bottom:0;padding:1rem .9rem .85rem;background:linear-gradient(0deg,rgba(10,17,32,.95),rgba(10,17,32,.5) 60%,transparent)}
+  .sc-name{font-family:var(--display);font-weight:800;font-size:1.05rem;color:#fff}
+  .sc-meta{font-size:.78rem;color:var(--lime);font-weight:700;margin-top:.16rem}
+  .sc-dist{font-size:.7rem;color:var(--ink-soft);margin-top:.26rem}
+  .sc-stamp{position:absolute;top:14px;left:13px;font-family:var(--display);font-weight:800;font-size:1rem;letter-spacing:.08em;padding:.16rem .5rem;border-radius:8px;border:3px solid var(--lime);color:var(--lime);transform:rotate(-15deg);opacity:0;z-index:3}
+  .swipe-card.front .sc-stamp{animation:sc-stamp 6.5s ease-in-out infinite}
+  .sc-actions{position:absolute;bottom:.7rem;left:0;right:0;z-index:5;display:flex;align-items:center;justify-content:center;gap:.85rem}
+  .sc-btn{width:42px;height:42px;border-radius:50%;border:1px solid var(--line);background:var(--card);display:grid;place-items:center;font-size:1rem;box-shadow:0 8px 18px -8px rgba(0,0,0,.6)}
+  .sc-btn.pass{color:#FF6B6B}
+  .sc-btn.star{color:var(--teal);width:36px;height:36px;font-size:.85rem}
+  .sc-btn.like{color:var(--lime);width:50px;height:50px;font-size:1.2rem;border-color:rgba(163,230,53,.45)}
+  @keyframes sc-demo{0%,52%{transform:translate(-50%,-50%) rotate(0)}66%,80%{transform:translate(-24%,-50%) rotate(9deg)}100%{transform:translate(-50%,-50%) rotate(0)}}
+  @keyframes sc-stamp{0%,55%{opacity:0}68%,80%{opacity:1}90%,100%{opacity:0}}
 
   /* ANIMATED TRUST MARQUEE */
   .trust{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--bg-alt);overflow:hidden}
@@ -424,10 +446,11 @@
   .how-progress span{flex:1;height:4px;border-radius:2px;background:var(--line);overflow:hidden;position:relative}
   .how-progress span::after{content:"";position:absolute;inset:0;background:var(--gradient);transform:scaleX(0);transform-origin:left;transition:transform .4s ease}
   .how-progress span.on::after{transform:scaleX(1)}
-  .steps .step{transition:opacity .4s ease, transform .4s ease, border-color .4s ease, box-shadow .4s ease}
-  .how.pinning .steps .step{opacity:.4}
-  .how.pinning .steps .step.active{opacity:1;border-color:rgba(163,230,53,.45);box-shadow:var(--glow-lime);transform:translateY(-5px)}
-  .how.pinning .steps .step.active .num{color:var(--lime)}
+  .steps .step{transition:border-color .35s ease, box-shadow .35s ease}
+  .how.pinning .steps{perspective:1200px}
+  .how.pinning .steps .step{will-change:transform,opacity,filter;transform-origin:center}
+  .how.pinning .steps .step.focus{border-color:rgba(163,230,53,.5);box-shadow:var(--glow-lime)}
+  .how.pinning .steps .step.focus .num{color:var(--lime)}
 
   /* Effect 6 — 3D tilt + cursor glow */
   .tilt{transition:transform .25s cubic-bezier(.22,1,.36,1)}
@@ -540,34 +563,22 @@
               <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3-3"/></svg>
             </span>
           </div>
-          <div class="feed">
-            <div class="gcard">
-              <div class="top">
-                <span class="sport-chip">⚽</span>
-                <div><div class="ttl">5v5 Football</div><div class="sub">Riverside Pitch · 2.1 km</div></div>
+          <div class="swipe-stage">
+            <div class="swipe-card back2"></div>
+            <div class="swipe-card back1"></div>
+            <div class="swipe-card front">
+              <div class="sc-photo"><span class="sc-sport">🎾</span></div>
+              <span class="sc-stamp">LIKE</span>
+              <div class="sc-info">
+                <div class="sc-name">Maya, 27</div>
+                <div class="sc-meta">🎾 Tennis · Intermediate</div>
+                <div class="sc-dist">📍 2.1 km away</div>
               </div>
-              <div class="meta"><span class="count"><i></i> 6/10 in</span><span class="join-pill">Join</span></div>
             </div>
-            <div class="gcard">
-              <div class="top">
-                <span class="sport-chip">🎾</span>
-                <div><div class="ttl">Tennis · Singles</div><div class="sub">Eastside Courts · 0.9 km</div></div>
-              </div>
-              <div class="meta"><span class="count"><i></i> 1/2 in</span><span class="join-pill">I'm interested</span></div>
-            </div>
-            <div class="gcard">
-              <div class="top">
-                <span class="sport-chip">🏀</span>
-                <div><div class="ttl">Pickup Hoops</div><div class="sub">Downtown Rec · 1.4 km</div></div>
-              </div>
-              <div class="meta"><span class="count"><i></i> 8/10 in</span><span class="join-pill">Join</span></div>
-            </div>
-            <div class="gcard">
-              <div class="top">
-                <span class="sport-chip">🥒</span>
-                <div><div class="ttl">Pickleball</div><div class="sub">Maple Park · 3.2 km</div></div>
-              </div>
-              <div class="meta"><span class="count"><i></i> 2/4 in</span><span class="join-pill ghost">I'm interested</span></div>
+            <div class="sc-actions">
+              <span class="sc-btn pass">✕</span>
+              <span class="sc-btn star">★</span>
+              <span class="sc-btn like">♥</span>
             </div>
           </div>
         </div>
@@ -1335,15 +1346,7 @@
 
   /* ===== Effect 6 — cursor glow + 3D tilt (desktop / fine-pointer only) ===== */
   if(finePointer && !reduce){
-    const glow = document.createElement('div');
-    glow.className = 'cursor-glow';
-    document.body.appendChild(glow);
-    window.addEventListener('pointermove', e=>{
-      glow.style.opacity = '1';
-      glow.style.transform = `translate(${e.clientX}px,${e.clientY}px) translate(-50%,-50%)`;
-    }, {passive:true});
-    document.addEventListener('mouseleave', ()=> glow.style.opacity = '0');
-
+    /* cursor-follow glow removed per request — keep the 3D card tilt only */
     document.querySelectorAll('.pcard, .tcard').forEach(card=>{
       card.classList.add('tilt');
       card.addEventListener('pointermove', e=>{
@@ -1383,16 +1386,25 @@
     const steps = Array.prototype.slice.call(document.querySelectorAll('.how .step'));
     const bars  = Array.prototype.slice.call(document.querySelectorAll('.how-progress span'));
     if(how && steps.length === 3 && window.innerWidth > 820){
-      const setActive = idx=>{
-        steps.forEach((s,k)=> s.classList.toggle('active', k === idx));
-        bars.forEach((b,k)=> b.classList.toggle('on', k <= idx));
+      const n = steps.length;
+      const focusStep = p=>{
+        steps.forEach((s,i)=>{
+          const c = i/(n-1), d = Math.abs(p-c)*(n-1), k = Math.max(0, 1-d);
+          s.style.transform = `scale(${(0.8 + 0.5*k).toFixed(3)})`;
+          s.style.opacity   = (0.22 + 0.78*k).toFixed(3);
+          s.style.zIndex    = Math.round(k*10);
+          s.style.filter    = k > 0.5 ? 'none' : `blur(${((0.5-k)*5).toFixed(1)}px)`;
+          s.classList.toggle('focus', k > 0.55);
+        });
+        const idx = Math.round(p*(n-1));
+        bars.forEach((b,j)=> b.classList.toggle('on', j <= idx));
       };
-      setActive(0);
+      const resetSteps = ()=> steps.forEach(s=>{ s.style.transform=''; s.style.opacity=''; s.style.zIndex=''; s.style.filter=''; s.classList.remove('focus'); });
       ScrollTrigger.create({
-        trigger: how, start:'top 12%', end:'+=1100',
-        pin:'.how .wrap', pinSpacing:true, scrub:.4,
-        onToggle: self => how.classList.toggle('pinning', self.isActive),
-        onUpdate: self => setActive(Math.min(2, Math.floor(self.progress * 3)))
+        trigger: how, start:'top 14%', end:'+=1500',
+        pin:'.how .wrap', pinSpacing:true, scrub:.5,
+        onToggle: self => { how.classList.toggle('pinning', self.isActive); self.isActive ? focusStep(self.progress) : resetSteps(); },
+        onUpdate: self => { if(self.isActive) focusStep(self.progress); }
       });
     }
 
