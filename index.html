@@ -358,7 +358,7 @@
   .rm-timeline{position:relative;display:flex;justify-content:space-between;gap:0;margin-top:2rem;padding:0 1rem}
   .rm-line{position:absolute;top:36px;left:5%;right:5%;height:4px;background:var(--line);border-radius:2px;z-index:1}
   .rm-progress{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--indigo),var(--violet),var(--emerald));width:0%;transition:width 1.5s cubic-bezier(.22,1,.36,1)}
-  .roadmap.counted .rm-progress{width:15%}
+  .roadmap.counted .rm-progress{width:50%}
   .rm-phase{flex:1;display:flex;flex-direction:column;align-items:center;position:relative;z-index:2;text-align:center}
   .rm-node{width:28px;height:28px;border-radius:50%;border:4px solid var(--line);background:var(--bg);margin-bottom:1.2rem;position:relative;transition:border-color .4s ease, box-shadow .4s ease}
   .rm-phase.done .rm-node{border-color:var(--indigo);background:var(--indigo)}
@@ -391,7 +391,7 @@
     .rm-timeline{flex-direction:column;align-items:stretch;gap:0;padding:0}
     .rm-line{top:0;bottom:0;left:20px;right:auto;width:4px;height:100%}
     .rm-progress{width:100%!important;height:0%;transition:height 1.5s cubic-bezier(.22,1,.36,1)}
-    .roadmap.counted .rm-progress{height:15%}
+    .roadmap.counted .rm-progress{height:50%}
     .rm-phase{flex-direction:row;align-items:flex-start;gap:1.2rem;text-align:left;padding:.8rem 0}
     .rm-node{margin-bottom:0;flex-shrink:0}
     .rm-card{max-width:100%}
@@ -638,7 +638,7 @@
     </div>
     <div class="stat">
       <div class="stat-val"><span class="stat-num" data-target="100">0</span><span class="stat-suffix">%</span></div>
-      <span class="stat-label">Sport — never a dating app</span>
+      <span class="stat-label">Matched on your sport</span>
       <div class="stat-bar"></div>
     </div>
   </div>
@@ -943,10 +943,10 @@
       <div class="rm-line"><div class="rm-progress"></div></div>
 
       <!-- Phase 1 — ACTIVE -->
-      <div class="rm-phase active">
+      <div class="rm-phase done">
         <div class="rm-node"></div>
         <div>
-          <span class="rm-badge">Now building</span>
+          <span class="rm-badge">Shipped</span>
           <div class="rm-card">
             <div class="rm-icon" style="background:linear-gradient(135deg,#A3E635,#00E5C3);color:#fff">🏗️</div>
             <h4>Foundation</h4>
@@ -957,16 +957,15 @@
               <li>Discover feed</li>
               <li>Auth &amp; account setup</li>
             </ul>
-            <span class="rm-here"><span class="rm-ping"></span> We're here</span>
           </div>
         </div>
       </div>
 
       <!-- Phase 2 -->
-      <div class="rm-phase upcoming">
+      <div class="rm-phase done">
         <div class="rm-node"></div>
         <div>
-          <span class="rm-badge">Up next</span>
+          <span class="rm-badge">Shipped</span>
           <div class="rm-card">
             <div class="rm-icon" style="background:linear-gradient(135deg,#00E5C3,#A3E635);color:#fff">💬</div>
             <h4>Core Features</h4>
@@ -982,10 +981,10 @@
       </div>
 
       <!-- Phase 3 -->
-      <div class="rm-phase upcoming">
+      <div class="rm-phase active">
         <div class="rm-node"></div>
         <div>
-          <span class="rm-badge">Fall 2026</span>
+          <span class="rm-badge">Now testing</span>
           <div class="rm-card">
             <div class="rm-icon" style="background:linear-gradient(135deg,#F59E0B,#EF4444);color:#fff">🧪</div>
             <h4>Beta Testing</h4>
@@ -996,6 +995,7 @@
               <li>Bug fixes &amp; polish</li>
               <li>App Store prep</li>
             </ul>
+            <span class="rm-here"><span class="rm-ping"></span> We're here</span>
           </div>
         </div>
       </div>
