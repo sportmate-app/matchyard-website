@@ -4,9 +4,9 @@
 
 :root {
   /* Brand palette */
-  --lime: #c6ff00;           /* primary accent — CTAs, active states */
+  --lime: #A3E635;           /* primary accent — CTAs, active states */
   --teal: #00e5c3;           /* secondary accent — links, gradient end */
-  --gradient: linear-gradient(135deg, #c6ff00, #00e5c3);
+  --gradient: linear-gradient(135deg, #A3E635, #00e5c3);
 
   /* Semantic tokens (dark mode — the hero) */
   --brand: var(--lime);      /* primary accent alias */
