@@ -9,10 +9,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MatchYard — Find your game. Find your people.</title>
 <meta name="description" content="MatchYard connects sports lovers with games and players nearby. Any sport, any time — find tennis, pickleball, basketball partners and more at your skill level. Download the app today." />
-<meta name="theme-color" content="#0A1120" />
+<meta name="theme-color" content="#060A14" />
 
 <!-- Favicon (MatchYard logo mark) -->
-<link rel="icon" href="logo-mark.svg" type="image/svg+xml" />
+<link rel="icon" href="favicon.png" type="image/png" />
+<link rel="apple-touch-icon" href="favicon.png" />
 
 <!-- Open Graph -->
 <!-- TODO(canonical domain): og:url / og:image / twitter:image deliberately point at the
@@ -35,7 +36,10 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://api.fontshare.com" crossorigin>
+<link rel="preconnect" href="https://cdn.fontshare.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&display=swap" rel="stylesheet">
 <style>
   :root{
     /* MatchYard brand — dark-first */
@@ -43,17 +47,17 @@
     --gradient:linear-gradient(135deg,#A3E635,#00E5C3);
     /* Neutrals (dark) */
     --ink:#F2F4F7; --ink-soft:#9BA6B8; --muted:#9BA6B8;
-    --bg:#0A1120; --bg-alt:#141B28; --line:#2A3445;
+    --bg:#060A14; --bg-alt:#121A28; --line:#2A3445;
     --card:#1B2330;
     /* Accent aliases — primary=lime, secondary=teal. on-accent = ink-navy text on lime */
     --indigo:#A3E635; --indigo-600:#00E5C3; --violet:#00E5C3;
-    --emerald:#00E5C3; --on-accent:#0A1120;
+    --emerald:#00E5C3; --on-accent:#060A14;
     --shadow-sm:0 1px 2px rgba(0,0,0,.4), 0 4px 12px rgba(0,0,0,.35);
     --shadow-lg:0 24px 60px -20px rgba(0,0,0,.6), 0 8px 24px rgba(0,0,0,.4);
     --glow-lime:0 0 0 1px rgba(163,230,53,.25), 0 18px 50px -18px rgba(163,230,53,.35);
     --r:18px;
-    --display:"Space Grotesk", system-ui, sans-serif;
-    --body:"Space Grotesk", system-ui, sans-serif;
+    --display:"Sora", system-ui, sans-serif;
+    --body:"Satoshi", system-ui, sans-serif;
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html{scroll-behavior:smooth}
@@ -109,7 +113,7 @@
   .hero-mark{position:relative;width:clamp(112px,13vw,168px);height:clamp(112px,13vw,168px);margin-bottom:1.6rem;display:grid;place-items:center}
   .hero-mark::before{content:"";position:absolute;inset:-38%;border-radius:50%;background:radial-gradient(circle,rgba(163,230,53,.30),rgba(0,229,195,.16) 45%,transparent 70%);filter:blur(6px);z-index:0;animation:markglow 6s ease-in-out infinite}
   @keyframes markglow{0%,100%{transform:scale(1);opacity:.85}50%{transform:scale(1.12);opacity:1}}
-  .hero-mark img{position:relative;z-index:1;width:100%;height:100%;filter:drop-shadow(0 14px 30px rgba(0,0,0,.45))}
+  .hero-mark img{position:relative;z-index:1;width:100%;height:auto;object-fit:contain;filter:drop-shadow(0 14px 30px rgba(0,0,0,.45))}
   .hero h1{font-size:clamp(2.6rem,5.6vw,4.2rem);font-weight:800}
   .hero h1 .grad{background:var(--gradient);-webkit-background-clip:text;background-clip:text;color:transparent}
   .hero .lead{font-size:clamp(1.05rem,1.6vw,1.28rem);color:var(--ink-soft);margin:1.5rem 0 2rem;max-width:34ch}
@@ -429,6 +433,275 @@
     *{animation:none!important;transition:none!important;scroll-behavior:auto!important}
     .aurora,.btn-primary::after{display:none}
   }
+
+  /* =====================================================================
+     BOLD · SPORTY REFRESH — global foundation + hero
+     Appended last so it layers cleanly over the base system.
+     ===================================================================== */
+
+  /* Premium film grain for depth (very subtle) */
+  body::after{content:"";position:fixed;inset:0;z-index:9999;pointer-events:none;opacity:.045;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+  /* Heavier, tighter, more athletic headings */
+  h1,h2{font-weight:900;letter-spacing:-.035em}
+  h3{font-weight:800;letter-spacing:-.02em}
+  .sec-head h2{font-weight:900;letter-spacing:-.035em}
+
+  /* Eyebrow gets a sporty gradient tick */
+  .eyebrow{display:inline-flex;align-items:center;gap:.55rem;font-size:.74rem;letter-spacing:.16em}
+  .eyebrow::before{content:"";width:22px;height:3px;border-radius:3px;background:var(--gradient)}
+
+  /* Punchy uppercase buttons */
+  .btn{text-transform:uppercase;letter-spacing:.045em;font-weight:800;font-size:.86rem}
+  .btn-lg{font-size:.98rem;letter-spacing:.05em;padding:1.05rem 2.05rem}
+  .btn-primary{box-shadow:0 12px 34px -10px rgba(163,230,53,.55),inset 0 0 0 1px rgba(255,255,255,.12)}
+  .btn-primary:hover{transform:translateY(-3px) scale(1.015)}
+  .btn-ghost{border-width:2px}
+  .btn-ghost:hover{background:rgba(0,229,195,.08);border-color:var(--teal)}
+
+  /* ---------------- HERO ---------------- */
+  .hero-grid{padding:5.5rem 0 5rem;gap:3.5rem}
+  /* sharper, more energetic aurora */
+  .aurora .a1{opacity:.65}
+  .aurora .a2{opacity:.5}
+
+  /* Sporty "live" status badge */
+  .pill-note{background:rgba(163,230,53,.08);border-color:rgba(163,230,53,.28);color:var(--ink);
+    text-transform:uppercase;letter-spacing:.1em;font-size:.7rem;font-weight:700;padding:.5rem 1rem}
+  .pill-note .dot{background:var(--lime);box-shadow:0 0 0 0 rgba(163,230,53,.5);animation:live-dot 1.8s ease-out infinite}
+  @keyframes live-dot{0%{box-shadow:0 0 0 0 rgba(163,230,53,.5)}70%{box-shadow:0 0 0 7px rgba(163,230,53,0)}100%{box-shadow:0 0 0 0 rgba(163,230,53,0)}}
+
+  /* Smaller, sharper monogram so the headline leads */
+  .hero-mark{width:clamp(78px,8vw,104px);height:auto;aspect-ratio:auto;margin-bottom:1.25rem}
+  .hero-mark::before{inset:-30%}
+
+  /* Massive kinetic headline */
+  .hero h1{font-family:var(--display);font-weight:900;text-transform:uppercase;
+    font-size:clamp(2.9rem,7vw,5.4rem);line-height:.95;letter-spacing:-.025em;word-spacing:.06em;margin-top:.2rem}
+  .hero h1 em{font-style:italic;font-weight:900}
+  .hero h1 .grad{background:linear-gradient(100deg,#A3E635 0%,#00E5C3 45%,#A3E635 90%);
+    background-size:220% auto;-webkit-background-clip:text;background-clip:text;color:transparent;
+    animation:hero-sheen 6.5s linear infinite}
+  @keyframes hero-sheen{to{background-position:220% center}}
+
+  .hero .lead{font-size:clamp(1.05rem,1.5vw,1.24rem);color:var(--ink-soft);max-width:40ch;margin:1.4rem 0 2rem;line-height:1.6}
+  .hero-actions{gap:1rem}
+
+  /* Sportier phone presence — gradient glow ring behind the device */
+  .phone-stage::before{content:"";position:absolute;width:min(420px,90%);aspect-ratio:1;border-radius:50%;
+    background:radial-gradient(circle,rgba(163,230,53,.20),rgba(0,229,195,.12) 45%,transparent 68%);
+    filter:blur(14px);z-index:0;animation:markglow 7s ease-in-out infinite}
+  .phone{z-index:1}
+
+  /* Store badges: a touch more contained */
+  .badges{margin-top:2rem}
+
+  @media (max-width:900px){
+    .hero h1{font-size:clamp(2.6rem,11vw,4rem)}
+    .pill-note,.badges,.hero-actions{justify-content:center}
+    .nav-cta .btn-primary{white-space:nowrap;padding:.6rem 1.05rem;font-size:.72rem;letter-spacing:.04em}
+  }
+  @media (max-width:560px){
+    .nav-cta .btn-primary{padding:.55rem .9rem;font-size:.68rem}
+    header.nav.scrolled .logo-img,.nav-inner .logo-img{height:24px}
+  }
+
+  /* =====================================================================
+     PREMIUM POLISH — kept sections rebuilt to a cohesive standard
+     ===================================================================== */
+
+  /* Generous, consistent section rhythm */
+  section{padding:6.5rem 0}
+  .sec-head{max-width:54ch}
+  .sec-head h2{font-size:clamp(2rem,3.8vw,3rem);font-weight:900;letter-spacing:-.035em}
+  .sec-head p{font-size:1.12rem;color:var(--ink-soft);margin-top:1rem;line-height:1.6}
+
+  /* Sports strip — refined, uppercase, fading edges */
+  .trust{position:relative;background:linear-gradient(180deg,var(--bg-alt),var(--bg))}
+  .trust-track{padding:1.35rem 0;gap:3.25rem}
+  .sport-item{font-family:var(--display);font-weight:700;text-transform:uppercase;letter-spacing:.05em;font-size:.9rem;color:var(--ink-soft)}
+  .trust::before,.trust::after{content:"";position:absolute;top:0;bottom:0;width:140px;z-index:2;pointer-events:none}
+  .trust::before{left:0;background:linear-gradient(90deg,var(--bg),transparent)}
+  .trust::after{right:0;background:linear-gradient(270deg,var(--bg),transparent)}
+
+  /* Feature grid — uniform, organized, premium */
+  .feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem}
+  .feat-card{position:relative;background:var(--card);border:1px solid var(--line);border-radius:22px;padding:2rem 1.8rem;overflow:hidden;
+    transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease}
+  .feat-card::before{content:"";position:absolute;inset:0;background:radial-gradient(85% 65% at 50% 0%,rgba(163,230,53,.10),transparent 70%);opacity:0;transition:opacity .3s ease}
+  .feat-card:hover{transform:translateY(-6px);border-color:rgba(163,230,53,.35);box-shadow:var(--glow-lime)}
+  .feat-card:hover::before{opacity:1}
+  .feat-ico{position:relative;width:56px;height:56px;border-radius:16px;display:grid;place-items:center;font-size:1.55rem;
+    background:rgba(163,230,53,.10);border:1px solid rgba(163,230,53,.22);margin-bottom:1.25rem}
+  .feat-card h3{position:relative;font-size:1.2rem;font-weight:800;letter-spacing:-.01em}
+  .feat-card p{position:relative;color:var(--ink-soft);margin-top:.55rem;font-size:.97rem;line-height:1.55}
+
+  /* How it works — bold gradient step numbers */
+  .steps{gap:1.25rem}
+  .step{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:2.3rem 1.9rem;
+    transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease}
+  .step:hover{transform:translateY(-6px);border-color:rgba(0,229,195,.32);box-shadow:var(--shadow-lg)}
+  .step .num{display:block;font-family:var(--display);font-weight:900;font-size:2.6rem;line-height:1;letter-spacing:-.05em;margin-bottom:.7rem;
+    background:var(--gradient);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .step h3{font-size:1.28rem;font-weight:800;margin:0 0 .4rem}
+  .step p{color:var(--ink-soft);font-size:.98rem}
+
+  /* Nearby map — give the copy side more presence */
+  .nearby-grid{gap:4rem}
+  .check li{font-size:1rem}
+
+  /* Testimonials — premium quote cards */
+  .tgrid{gap:1.25rem}
+  .tcard{border-radius:22px;padding:2.1rem;transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease}
+  .tcard:hover{transform:translateY(-6px);border-color:rgba(163,230,53,.3);box-shadow:var(--shadow-lg)}
+  .tcard p{font-size:1.06rem;line-height:1.55;color:var(--ink)}
+
+  /* FAQ — cleaner, brand-tinted open state */
+  .qa{border-radius:16px}
+  .qa button{font-family:var(--display);font-weight:700;font-size:1.05rem;padding:1.25rem 1.5rem}
+  .qa.open{border-color:rgba(163,230,53,.35)}
+
+  /* Support — tidy premium cards */
+  .support-card,.callout{border-radius:22px;padding:2.1rem}
+
+  /* Final CTA — big closing moment */
+  .final{border-radius:32px;padding:5rem 2rem}
+  .final h2{font-size:clamp(2.2rem,4.6vw,3.4rem);text-transform:uppercase;letter-spacing:-.03em}
+  .final p{font-size:1.15rem}
+
+  @media (max-width:900px){
+    section{padding:4.5rem 0}
+    .feat-grid{grid-template-columns:1fr}
+  }
+  @media (min-width:561px) and (max-width:900px){
+    .feat-grid{grid-template-columns:1fr 1fr}
+  }
+
+  /* =====================================================================
+     PREMIUM v2 — sleek, restrained, editorial. Overrides the loud pass.
+     ===================================================================== */
+  :root{
+    --bg:#0A0E16; --bg-alt:#101722; --card:#141C29; --line:#222C3C;
+    --ink:#F4F7FB; --ink-soft:#9AA6B8; --muted:#828DA1;
+    --on-accent:#0A0E16;
+    --glow-lime:0 0 0 1px rgba(163,230,53,.16), 0 24px 60px -28px rgba(163,230,53,.30);
+    --shadow-lg:0 30px 70px -28px rgba(0,0,0,.7), 0 10px 24px rgba(0,0,0,.4);
+  }
+  body{font-weight:400;letter-spacing:-.004em;color:var(--ink)}
+
+  /* Display type — editorial, sentence case, tight */
+  h1,h2,h3,h4{font-family:var(--display);font-weight:600;letter-spacing:-.02em}
+  .hero h1,.sec-head h2,.final h2,.nearby h2,.stories h2{text-transform:none;font-weight:600;word-spacing:normal}
+  .hero h1{font-size:clamp(2.9rem,6vw,4.9rem);line-height:1.02;letter-spacing:-.02em;word-spacing:.06em}
+  .sec-head h2{font-size:clamp(2.1rem,3.6vw,3rem);letter-spacing:-.025em}
+  .final h2{font-size:clamp(2.3rem,4.4vw,3.4rem);letter-spacing:-.025em}
+  .step h3,.feat-card h3,.tcard b,.qa button{font-family:var(--display);font-weight:600;letter-spacing:-.01em}
+
+  /* Eyebrows — refined tracked label */
+  .eyebrow{font-family:var(--body);font-weight:600;font-size:.72rem;letter-spacing:.18em;color:var(--teal)}
+  .eyebrow::before{height:2px;width:18px}
+
+  /* Buttons — crisp, sentence case, no neon shout */
+  .btn{text-transform:none;letter-spacing:.005em;font-weight:700;font-family:var(--body);border-radius:13px}
+  .btn-lg{font-size:1rem;letter-spacing:.005em;padding:1.02rem 1.85rem;border-radius:14px}
+  .btn-primary{background:var(--lime);color:var(--on-accent);box-shadow:0 10px 30px -12px rgba(163,230,53,.5);inset:unset}
+  .btn-primary{box-shadow:0 10px 28px -12px rgba(163,230,53,.45)}
+  .btn-primary:hover{transform:translateY(-2px);filter:brightness(1.05)}
+  .btn-ghost{border-radius:14px;border-width:1.5px;border-color:var(--line);color:var(--ink)}
+  .btn-ghost:hover{border-color:var(--teal);color:var(--teal);background:transparent}
+
+  /* Hero — premium dot-grid depth + calmer aurora */
+  .hero{position:relative}
+  .hero::before{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
+    background-image:radial-gradient(rgba(255,255,255,.05) 1px,transparent 1px);background-size:28px 28px;
+    -webkit-mask:radial-gradient(80% 70% at 50% 28%,#000,transparent 78%);mask:radial-gradient(80% 70% at 50% 28%,#000,transparent 78%)}
+  .aurora .a1{opacity:.42}.aurora .a2{opacity:.32}.aurora .a3{opacity:.26}
+  .pill-note{text-transform:uppercase;letter-spacing:.12em;font-size:.68rem;font-weight:600;
+    background:rgba(255,255,255,.03);border-color:var(--line);color:var(--ink-soft)}
+  .pill-note .dot{background:var(--lime)}
+  .hero .lead{color:var(--ink-soft);font-weight:400;font-size:clamp(1.08rem,1.4vw,1.22rem)}
+  /* keep only the second line gradient, but softer/no animation for a refined feel */
+  .hero h1 .grad{animation:none;background:linear-gradient(95deg,#A3E635,#00E5C3);background-size:auto;
+    -webkit-background-clip:text;background-clip:text;color:transparent}
+
+  /* Surfaces — hairline borders, subtle elevation */
+  .feat-card,.step,.tcard,.qa,.support-card,.callout{background:var(--card);border-color:var(--line);border-radius:18px}
+  .feat-ico{background:rgba(163,230,53,.08);border-color:rgba(163,230,53,.18);border-radius:14px}
+  .feat-card:hover,.step:hover,.tcard:hover{transform:translateY(-4px)}
+
+  /* How-it-works numbers — refined, not screaming */
+  .step .num{font-family:var(--display);font-weight:600;font-size:2.3rem;letter-spacing:-.03em;
+    -webkit-text-fill-color:transparent}
+
+  /* Sports strip — quieter, more typographic */
+  .sport-item{font-family:var(--body);font-weight:600;letter-spacing:.04em;color:var(--muted)}
+
+  /* Final CTA — cleaner card */
+  .final{border-radius:26px}
+  .waitlist-form input{border-radius:13px}
+
+  /* Nav — refined */
+  .nav-links{font-weight:500}
+
+  /* =====================================================================
+     BOLD EDITORIAL HERO — looping multi-sport photography + the app phone
+     ===================================================================== */
+  .hero-editorial{position:relative;min-height:min(96vh,940px);display:flex;align-items:center;overflow:hidden;background:#05080F}
+  .hero-editorial::before{content:none} /* remove dot-grid over the photos */
+  .hero-media{position:absolute;inset:0;z-index:0}
+
+  /* Crossfading slideshow of sports */
+  .hero-slides{position:absolute;inset:0}
+  .hero-slides .slide{position:absolute;inset:0;background-size:cover;background-position:center;
+    opacity:0;will-change:opacity;animation:hero-cycle 35s infinite;transform:scale(1.04)}
+  .hero-slides .slide:first-child{opacity:1} /* reduced-motion / no-anim fallback */
+  .hero-slides .slide:nth-child(1){animation-delay:0s}
+  .hero-slides .slide:nth-child(2){animation-delay:7s}
+  .hero-slides .slide:nth-child(3){animation-delay:14s}
+  .hero-slides .slide:nth-child(4){animation-delay:21s}
+  .hero-slides .slide:nth-child(5){animation-delay:28s}
+  @keyframes hero-cycle{
+    0%{opacity:0;transform:scale(1.04)}
+    3%{opacity:1}
+    18%{opacity:1;transform:scale(1.09)}
+    23%{opacity:0}
+    100%{opacity:0;transform:scale(1.04)}
+  }
+
+  .hero-scrim{position:absolute;inset:0;
+    background:
+      linear-gradient(180deg,rgba(5,8,15,.55) 0%,rgba(5,8,15,.30) 30%,rgba(5,8,15,.55) 70%,rgba(5,8,15,.92) 90%,var(--bg) 100%),
+      linear-gradient(90deg,rgba(5,8,15,.92) 0%,rgba(5,8,15,.62) 38%,rgba(5,8,15,.18) 70%,rgba(5,8,15,.35) 100%)}
+
+  /* Split layout: copy + phone over the photography */
+  .hero-editorial .hero-grid{position:relative;z-index:2;grid-template-columns:1.04fr .96fr;align-items:center;
+    padding:7rem 0 5.5rem}
+  .hero-copy{max-width:38rem}
+  .hero-editorial .pill-note{backdrop-filter:blur(6px)}
+  .hero-editorial h1{font-family:var(--display);font-weight:700;text-transform:none;color:#fff;
+    font-size:clamp(2.9rem,6vw,5rem);line-height:1.02;letter-spacing:-.03em;word-spacing:.02em;
+    text-shadow:0 2px 30px rgba(0,0,0,.4)}
+  .hero-editorial h1 .grad{background:linear-gradient(95deg,#B6F23A,#00E5C3);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .hero-editorial .lead{max-width:42ch;color:#DCE3EE;font-size:clamp(1.06rem,1.35vw,1.22rem);
+    margin:1.5rem 0 2.1rem;text-shadow:0 1px 16px rgba(0,0,0,.4)}
+  .hero-editorial .hero-actions{gap:1rem}
+  .hero-editorial .hero-meta{margin-top:1.5rem;color:#AEB8C8;font-size:.9rem;font-weight:500;letter-spacing:.01em}
+
+  /* Phone sits cleanly over the imagery */
+  .hero-editorial .phone-stage{position:relative}
+  .hero-editorial .phone{box-shadow:0 40px 90px -30px rgba(0,0,0,.85),0 0 0 1px rgba(255,255,255,.05) inset}
+
+  @media (max-width:900px){
+    .hero-editorial{min-height:auto;align-items:stretch}
+    .hero-editorial .hero-grid{grid-template-columns:1fr;gap:2.5rem;padding:7rem 0 4rem;text-align:left}
+    .hero-copy{max-width:none}
+    .hero-editorial .pill-note,.hero-editorial .hero-actions{justify-content:flex-start}
+    .hero-scrim{background:
+      linear-gradient(180deg,rgba(5,8,15,.5) 0%,rgba(5,8,15,.5) 45%,rgba(5,8,15,.9) 85%,var(--bg) 100%)}
+    .hero-editorial .phone-stage{margin-inline:auto}
+    .float-card{display:none}
+  }
 </style>
 <!-- No-JS fallback: reveal-on-scroll relies on JS; without it, show everything. -->
 <noscript><style>.reveal{opacity:1!important;transform:none!important}.shot{display:none!important}</style></noscript>
@@ -439,17 +712,15 @@
 
 <header class="nav">
   <div class="wrap nav-inner">
-    <a href="#" class="logo" aria-label="MatchYard home"><img class="logo-img" src="logo.svg" alt="MatchYard" width="170" height="30" /></a>
+    <a href="#" class="logo" aria-label="MatchYard home"><img class="logo-img" src="logo.png" alt="MatchYard" width="173" height="30" /></a>
     <nav class="nav-links" aria-label="Primary">
       <a href="#how">How it works</a>
       <a href="#features">Features</a>
-      <a href="#stories">Stories</a>
+      <a href="blog.html">Blog</a>
       <a href="#faq">FAQ</a>
-      <a href="#roadmap">Roadmap</a>
       <a href="#support">Support</a>
     </nav>
     <div class="nav-cta">
-      <a href="#how" class="btn btn-ghost">How it works</a>
       <a href="#waitlist" class="btn btn-primary">Join waitlist</a>
       <button class="hamburger" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
     </div>
@@ -457,42 +728,37 @@
 </header>
 
 <!-- ==================== HERO ==================== -->
-<section class="hero">
-  <!-- Animated lime/teal aurora glow (decorative) -->
-  <div class="aurora" aria-hidden="true"><span class="a1"></span><span class="a2"></span><span class="a3"></span></div>
-  <div class="wrap hero-grid">
-    <div>
-      <span class="pill-note"><span class="dot"></span> Now matching players in your area</span>
-      <!-- Big MY monogram hero moment -->
-      <div class="hero-mark"><img src="logo-mark.svg" alt="MatchYard logo" width="168" height="168" /></div>
-      <h1>Find your game.<br><span class="grad">Find your people.</span></h1>
-      <p class="lead">MatchYard connects you with players nearby who share your sport, your skill level, and your schedule — so the next game is always within reach.</p>
-      <div class="hero-actions">
-        <a href="#waitlist" class="btn btn-primary btn-lg">Get started →</a>
-        <a href="#how" class="btn btn-ghost">See how it works</a>
-      </div>
-      <!-- Store badges (pre-launch: Coming soon, link to waitlist) -->
-      <div class="badges" aria-label="App availability">
-        <a class="badge-link" href="#waitlist" aria-label="App Store — coming soon">
-          <img src="badge-app-store.svg" alt="Download on the App Store — coming soon" width="180" height="54" loading="lazy" />
-          <span class="soon">Coming soon</span>
-        </a>
-        <a class="badge-link" href="#waitlist" aria-label="Google Play — coming soon">
-          <img src="badge-google-play.svg" alt="Get it on Google Play — coming soon" width="180" height="54" loading="lazy" />
-          <span class="soon">Coming soon</span>
-        </a>
-      </div>
+<section class="hero hero-editorial">
+  <!-- Looping athletic photography (soccer · basketball · volleyball · tennis · running) -->
+  <div class="hero-media" aria-hidden="true">
+    <div class="hero-slides">
+      <div class="slide" style="background-image:url('assets/img/hero-soccer.jpg')"></div>
+      <div class="slide" style="background-image:url('assets/img/hero-hoops.jpg')"></div>
+      <div class="slide" style="background-image:url('assets/img/hero-volleyball.jpg')"></div>
+      <div class="slide" style="background-image:url('assets/img/hero-tennis.jpg')"></div>
+      <div class="slide" style="background-image:url('assets/img/hero-running.jpg')"></div>
     </div>
+    <div class="hero-scrim"></div>
+  </div>
+  <div class="wrap hero-grid">
+    <div class="hero-copy">
+      <span class="pill-note"><span class="dot"></span> Now matching players near you</span>
+      <h1>Find your game.<br><span class="grad">Find your people.</span></h1>
+      <p class="lead">Tennis, basketball, soccer, pickleball — whatever you play, MatchYard connects you with players nearby at your level and on your schedule.</p>
+      <div class="hero-actions">
+        <a href="#waitlist" class="btn btn-primary btn-lg">Get early access →</a>
+        <a href="#how" class="btn btn-ghost btn-lg">See how it works</a>
+      </div>
+      <p class="hero-meta">Free to join · iOS first · No spam, ever</p>
+    </div>
+
+    <!-- The app, on a phone -->
     <div class="phone-stage">
       <div class="float-card fc-match"><span class="fc-ico" style="background:linear-gradient(135deg,#A3E635,#00E5C3);color:#0A1120">✓</span> It's a match!</div>
       <div class="float-card fc-now"><span class="fc-ico" style="background:#A3E635;color:#0A1120">⚡</span> 3 players free at&nbsp;6pm</div>
       <div class="phone" id="heroPhone">
         <div class="notch"></div>
         <div class="phone-screen">
-          <!-- swap: replace this whole mockup by setting a src on the img below -->
-          <!-- swap: <img id="shot-discover" class="shot" src="shots/shot-discover.png" alt="MatchYard Discover feed"> -->
-          <img id="shot-discover" class="shot" alt="MatchYard Discover feed" hidden />
-          <!-- High-fidelity CSS stand-in for the Discover feed -->
           <div class="app-top">
             <span class="row"><span class="app-top-title">Discover</span></span>
             <span class="row">
@@ -502,31 +768,19 @@
           </div>
           <div class="feed">
             <div class="gcard">
-              <div class="top">
-                <span class="sport-chip">⚽</span>
-                <div><div class="ttl">5v5 Football</div><div class="sub">Riverside Pitch · 2.1 km</div></div>
-              </div>
+              <div class="top"><span class="sport-chip">⚽</span><div><div class="ttl">5v5 Football</div><div class="sub">Riverside Pitch · 2.1 km</div></div></div>
               <div class="meta"><span class="count"><i></i> 6/10 in</span><span class="join-pill">Join</span></div>
             </div>
             <div class="gcard">
-              <div class="top">
-                <span class="sport-chip">🎾</span>
-                <div><div class="ttl">Tennis · Singles</div><div class="sub">Eastside Courts · 0.9 km</div></div>
-              </div>
+              <div class="top"><span class="sport-chip">🎾</span><div><div class="ttl">Tennis · Singles</div><div class="sub">Eastside Courts · 0.9 km</div></div></div>
               <div class="meta"><span class="count"><i></i> 1/2 in</span><span class="join-pill">I'm interested</span></div>
             </div>
             <div class="gcard">
-              <div class="top">
-                <span class="sport-chip">🏀</span>
-                <div><div class="ttl">Pickup Hoops</div><div class="sub">Downtown Rec · 1.4 km</div></div>
-              </div>
+              <div class="top"><span class="sport-chip">🏀</span><div><div class="ttl">Pickup Hoops</div><div class="sub">Downtown Rec · 1.4 km</div></div></div>
               <div class="meta"><span class="count"><i></i> 8/10 in</span><span class="join-pill">Join</span></div>
             </div>
             <div class="gcard">
-              <div class="top">
-                <span class="sport-chip">🥒</span>
-                <div><div class="ttl">Pickleball</div><div class="sub">Maple Park · 3.2 km</div></div>
-              </div>
+              <div class="top"><span class="sport-chip">🥒</span><div><div class="ttl">Pickleball</div><div class="sub">Maple Park · 3.2 km</div></div></div>
               <div class="meta"><span class="count"><i></i> 2/4 in</span><span class="join-pill ghost">I'm interested</span></div>
             </div>
           </div>
@@ -567,155 +821,45 @@
   </div>
 </div>
 
-<!-- ==================== ANIMATED STATS ==================== -->
-<div class="stats" id="statsSection">
-  <div class="wrap stats-inner">
-    <div class="stat">
-      <div class="stat-val"><span class="stat-num" data-target="17">0</span></div>
-      <span class="stat-label">Sports supported</span>
-      <div class="stat-bar"></div>
-    </div>
-    <div class="stat">
-      <div class="stat-val"><span class="stat-num" data-target="3">0</span></div>
-      <span class="stat-label">Skill levels matched</span>
-      <div class="stat-bar"></div>
-    </div>
-    <div class="stat">
-      <div class="stat-val"><span class="stat-num" data-target="0">0</span></div>
-      <span class="stat-label">Cost to join</span>
-      <div class="stat-bar"></div>
-    </div>
-    <div class="stat">
-      <div class="stat-val"><span class="stat-num" data-target="100">0</span><span class="stat-suffix">%</span></div>
-      <span class="stat-label">Sport — never a dating app</span>
-      <div class="stat-bar"></div>
-    </div>
-  </div>
-</div>
-
 <!-- ==================== FEATURES ==================== -->
 <section id="features">
   <div class="wrap" id="main">
     <div class="sec-head reveal">
       <span class="eyebrow">Why MatchYard</span>
-      <h2>Matched on what actually makes a good game.</h2>
-      <p>Not just who's nearby — who's nearby, at your level, free when you are, and looking for the same kind of game.</p>
+      <h2>Everything you need to get in the game.</h2>
+      <p>Not just who's nearby — who's nearby, at your level, free when you are, and up for the same kind of game.</p>
     </div>
-    <div class="pillars">
-      <div class="pcard reveal">
-        <div class="pico" style="background:linear-gradient(135deg,#A3E635,#00E5C3)"><svg viewBox="0 0 24 24" style="stroke:#0A1120"><path d="M12 2 4 7v6c0 5 3.5 7.5 8 9 4.5-1.5 8-4 8-9V7z"/><path d="m9 12 2 2 4-4"/></svg></div>
+    <div class="feat-grid">
+      <article class="feat-card reveal">
+        <span class="feat-ico">🎯</span>
         <h3>Matched by how you play</h3>
-        <p>We weigh your sport, skill level, and whether you're after competitive or casual — so every match is someone you'd actually want to rally with.</p>
-      </div>
-      <div class="pcard reveal">
-        <div class="pico" style="background:linear-gradient(135deg,#00E5C3,#A3E635)"><svg viewBox="0 0 24 24" style="stroke:#0A1120"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18M8 3v4M16 3v4"/></svg></div>
-        <h3>People who fit your schedule</h3>
-        <p>Set when you're free and we surface players whose availability overlaps yours. No more matches you can never actually meet up with.</p>
-      </div>
-      <div class="pcard reveal">
-        <div class="pico" style="background:linear-gradient(135deg,#F59E0B,#EF4444)"><svg viewBox="0 0 24 24"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg></div>
-        <h3>Play today, not someday</h3>
-        <p>Post a Play Now request and players nearby looking for a game right now can jump in. Spontaneous pickup, organized in minutes.</p>
-      </div>
-    </div>
-
-    <!-- Bento feature grid -->
-    <div class="bento" style="margin-top:1.4rem">
-      <div class="bcard b-wide b-feature reveal">
-        <span class="b-ico">🎯</span>
-        <div class="big">Skill-matched, every time.</div>
-        <p>Beginner, intermediate or advanced — we line you up with players who'll make the game worth your while, not a mismatch.</p>
-      </div>
-      <div class="bcard b-sm reveal">
-        <span class="tag">Live</span>
-        <span class="b-ico">📍</span>
-        <h3>Players near you</h3>
-        <p>Closest, most-available players surface first.</p>
-      </div>
-      <div class="bcard b-sm reveal">
-        <span class="b-ico">💬</span>
-        <h3>Lock in the plan</h3>
-        <p>Chat, propose a time &amp; court, and you're set.</p>
-      </div>
-      <div class="bcard b-half reveal">
-        <span class="b-ico">⚡</span>
+        <p>Sport, skill level, and competitive-or-casual — every match is someone you'd actually want to rally with.</p>
+      </article>
+      <article class="feat-card reveal">
+        <span class="feat-ico">🗓️</span>
+        <h3>Fits your schedule</h3>
+        <p>Set when you're free and we surface players whose availability overlaps yours. No more matches you can never meet.</p>
+      </article>
+      <article class="feat-card reveal">
+        <span class="feat-ico">⚡</span>
         <h3>Play Now</h3>
-        <p>Time-boxed pickup games happening today, near you — jump in with one tap.</p>
-      </div>
-      <div class="bcard b-half reveal">
-        <span class="b-ico">🛡️</span>
-        <h3>Built to feel safe</h3>
-        <p>Phone verification, photo review, and one-tap report &amp; block come standard.</p>
-      </div>
-    </div>
-
-    <!-- Feature phones (small, screenshot-swappable) -->
-    <div class="feat-phones reveal">
-      <!-- 1 · Play Now -->
-      <figure style="margin:0">
-        <div class="mini-phone">
-          <div class="mp-screen">
-            <!-- swap: <img id="shot-game" class="shot" src="shots/shot-game.png" alt="MatchYard Play Now"> -->
-            <img id="shot-game" class="shot" alt="MatchYard Play Now" hidden />
-            <div class="mp-hd">⚡ Play Now</div>
-            <div class="mp-body">
-              <div class="mp-tile"><div class="t1">🏀 Pickup hoops</div><div class="t2">1.1 km · today 6:00pm</div><span class="mp-pill">1 spot left</span></div>
-              <div class="mp-tile"><div class="t1">🎾 Hitting partner</div><div class="t2">0.6 km · flexible</div><span class="mp-pill gh">Open</span></div>
-            </div>
-          </div>
-        </div>
-        <figcaption class="mp-cap">Play Now</figcaption>
-      </figure>
-      <!-- 2 · Chat -->
-      <figure style="margin:0">
-        <div class="mini-phone">
-          <div class="mp-screen">
-            <!-- swap: <img id="shot-chat" class="shot" src="shots/shot-chat.png" alt="MatchYard chat"> -->
-            <img id="shot-chat" class="shot" alt="MatchYard chat" hidden />
-            <div class="mp-hd">💬 Maya</div>
-            <div class="mp-body">
-              <span class="mp-bubble mp-b-them">Both intermediate 🎾</span>
-              <span class="mp-bubble mp-b-me">Riverside, Tue 6pm?</span>
-              <span class="mp-bubble mp-b-them">Perfect — see you!</span>
-            </div>
-          </div>
-        </div>
-        <figcaption class="mp-cap">In-app chat</figcaption>
-      </figure>
-      <!-- 3 · AI Match -->
-      <figure style="margin:0">
-        <div class="mini-phone">
-          <div class="mp-screen">
-            <!-- swap: <img id="shot-match" class="shot" src="shots/shot-match.png" alt="MatchYard match"> -->
-            <img id="shot-match" class="shot" alt="MatchYard match" hidden />
-            <div class="mp-hd">✦ Your match</div>
-            <div class="mp-body mp-match">
-              <div class="mp-ring">94%</div>
-              <div class="t1" style="font-family:var(--display);font-weight:700;font-size:.8rem">Maya, 27</div>
-              <div class="t2" style="font-size:.62rem;color:var(--muted)">🎾 Tennis · Intermediate</div>
-              <span class="mp-pill">It's a match!</span>
-            </div>
-          </div>
-        </div>
-        <figcaption class="mp-cap">Smart matching</figcaption>
-      </figure>
-      <!-- 4 · Profile -->
-      <figure style="margin:0">
-        <div class="mini-phone">
-          <div class="mp-screen">
-            <!-- swap: <img id="shot-profile" class="shot" src="shots/shot-profile.png" alt="MatchYard profile"> -->
-            <img id="shot-profile" class="shot" alt="MatchYard profile" hidden />
-            <div class="mp-hd">Profile</div>
-            <div class="mp-body mp-prof">
-              <div class="mp-av"></div>
-              <div class="t1" style="font-size:.8rem">Alex · 31</div>
-              <div class="mp-stars">★★★★★</div>
-              <div class="mp-tile" style="width:100%"><div class="t1">🏀 Basketball</div><div class="t2">Advanced · weekends</div></div>
-            </div>
-          </div>
-        </div>
-        <figcaption class="mp-cap">Player profile</figcaption>
-      </figure>
+        <p>Post a pickup request and players nearby looking for a game right now jump in. Spontaneous, organized in minutes.</p>
+      </article>
+      <article class="feat-card reveal">
+        <span class="feat-ico">📍</span>
+        <h3>Players near you</h3>
+        <p>Distance-based discovery surfaces the closest, most-available players first — so the next game is always within reach.</p>
+      </article>
+      <article class="feat-card reveal">
+        <span class="feat-ico">💬</span>
+        <h3>Lock in the plan</h3>
+        <p>Built-in chat with a "propose a time &amp; court" prompt takes you from match to meetup without the back-and-forth.</p>
+      </article>
+      <article class="feat-card reveal">
+        <span class="feat-ico">🛡️</span>
+        <h3>Safe by design</h3>
+        <p>Phone verification, photo review, and one-tap report &amp; block come standard — with a zero-tolerance policy behind them.</p>
+      </article>
     </div>
   </div>
 </section>
@@ -729,19 +873,17 @@
     </div>
     <div class="steps">
       <div class="step reveal">
-        <span class="num">STEP 01</span>
+        <span class="num">01</span>
         <h3>Build your sports profile</h3>
         <p>Pick your sports, set your skill for each, and mark the times you're usually free to play.</p>
-        <svg class="line" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg>
       </div>
       <div class="step reveal">
-        <span class="num">STEP 02</span>
+        <span class="num">02</span>
         <h3>Swipe to match</h3>
         <p>Browse nearby players ranked by fit. Swipe right on anyone you'd like to play with — match when you both do.</p>
-        <svg class="line" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg>
       </div>
       <div class="step reveal">
-        <span class="num">STEP 03</span>
+        <span class="num">03</span>
         <h3>Chat &amp; play</h3>
         <p>Message your match, lock in a time and a court, and get on with the game.</p>
       </div>
@@ -821,40 +963,6 @@
   </div>
 </section>
 
-<!-- ==================== SHOWCASE (ANIMATED) ==================== -->
-<section id="app-preview">
-  <div class="wrap showcase">
-    <div class="reveal">
-      <span class="eyebrow">Built for the meetup</span>
-      <h2 style="font-size:clamp(1.8rem,3.2vw,2.5rem);margin-top:.7rem">Matching is only half of it.</h2>
-      <p style="color:var(--ink-soft);font-size:1.05rem;margin-top:.8rem">A match is just the start. MatchYard is designed to get you from "you both swiped right" to "see you on court at six."</p>
-      <ul class="check">
-        <li><span class="ck">✓</span> In-app chat with read receipts and a built-in "propose a time &amp; place" prompt</li>
-        <li><span class="ck">✓</span> Play Now requests with live, time-boxed pickup games near you</li>
-        <li><span class="ck">✓</span> Phone verification, photo review, and one-tap report &amp; block</li>
-        <li><span class="ck">✓</span> Rate &amp; review after every session — build your reputation and find reliable partners</li>
-      </ul>
-    </div>
-    <div class="mini-phones reveal" id="showcasePhones">
-      <div class="mini">
-        <div class="mini-screen">
-          <div class="mini-hd">💬 Maya</div>
-          <div class="chat-row" data-delay="0"><span class="av"></span><span class="bubble b-them">Hey! Saw we're both intermediate 🎾</span></div>
-          <div class="chat-row" data-delay="600"><span class="bubble b-me">Courts at Riverside, Tue 6pm?</span></div>
-          <div class="chat-row" data-delay="1200"><span class="av"></span><span class="bubble b-them">Perfect, see you there!</span></div>
-        </div>
-      </div>
-      <div class="mini">
-        <div class="mini-screen">
-          <div class="mini-hd">⚡ Play Now</div>
-          <div class="now-item" data-delay="400"><div class="s">🏀 Pickup hoops</div><div class="d">1.1 km · today 6:00–7:30pm</div><span class="now-pill">3 in · 1 spot left</span></div>
-          <div class="now-item" data-delay="900"><div class="s">🎾 Hitting partner</div><div class="d">0.6 km · today, flexible</div><span class="now-pill">Open</span></div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- ==================== TESTIMONIALS ==================== -->
 <section id="stories">
   <div class="wrap">
@@ -879,117 +987,6 @@
   </div>
 </section>
 
-<!-- ==================== ROADMAP ==================== -->
-<section id="roadmap" class="roadmap" >
-  <div class="wrap">
-    <div class="sec-head reveal" style="margin-inline:auto;text-align:center">
-      <span class="eyebrow">Roadmap</span>
-      <h2>Where we're headed.</h2>
-      <p>We're building MatchYard in the open. Here's what's live, what's next, and what's on the horizon.</p>
-    </div>
-    <div class="rm-timeline reveal" id="rmTimeline">
-      <div class="rm-line"><div class="rm-progress"></div></div>
-
-      <!-- Phase 1 — ACTIVE -->
-      <div class="rm-phase active">
-        <div class="rm-node"></div>
-        <div>
-          <span class="rm-badge">Now building</span>
-          <div class="rm-card">
-            <div class="rm-icon" style="background:linear-gradient(135deg,#A3E635,#00E5C3);color:#fff">🏗️</div>
-            <h4>Foundation</h4>
-            <div class="rm-date">Summer 2026</div>
-            <ul class="rm-features">
-              <li>Profiles &amp; onboarding</li>
-              <li>Smart matching algorithm</li>
-              <li>Discover feed</li>
-              <li>Auth &amp; account setup</li>
-            </ul>
-            <span class="rm-here"><span class="rm-ping"></span> We're here</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Phase 2 -->
-      <div class="rm-phase upcoming">
-        <div class="rm-node"></div>
-        <div>
-          <span class="rm-badge">Up next</span>
-          <div class="rm-card">
-            <div class="rm-icon" style="background:linear-gradient(135deg,#00E5C3,#A3E635);color:#fff">💬</div>
-            <h4>Core Features</h4>
-            <div class="rm-date">Late Summer 2026</div>
-            <ul class="rm-features">
-              <li>In-app chat</li>
-              <li>Play Now requests</li>
-              <li>AI-powered matching</li>
-              <li>Ratings &amp; reviews</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <!-- Phase 3 -->
-      <div class="rm-phase upcoming">
-        <div class="rm-node"></div>
-        <div>
-          <span class="rm-badge">Fall 2026</span>
-          <div class="rm-card">
-            <div class="rm-icon" style="background:linear-gradient(135deg,#F59E0B,#EF4444);color:#fff">🧪</div>
-            <h4>Beta Testing</h4>
-            <div class="rm-date">Sep – Nov 2026</div>
-            <ul class="rm-features">
-              <li>TestFlight beta</li>
-              <li>200 early testers</li>
-              <li>Bug fixes &amp; polish</li>
-              <li>App Store prep</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <!-- Phase 4 -->
-      <div class="rm-phase upcoming">
-        <div class="rm-node"></div>
-        <div>
-          <span class="rm-badge">Winter 2026</span>
-          <div class="rm-card">
-            <div class="rm-icon" style="background:linear-gradient(135deg,#A3E635,#00E5C3);color:#fff">🚀</div>
-            <h4>App Store Launch</h4>
-            <div class="rm-date">Nov 2026 – Jan 2027</div>
-            <ul class="rm-features">
-              <li>Public launch on iOS</li>
-              <li>Marketing &amp; growth</li>
-              <li>Push notifications</li>
-              <li>Onboarding polish</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <!-- Phase 5 -->
-      <div class="rm-phase upcoming">
-        <div class="rm-node"></div>
-        <div>
-          <span class="rm-badge">2027+</span>
-          <div class="rm-card">
-            <div class="rm-icon" style="background:linear-gradient(135deg,#0A1120,#00E5C3);color:#fff">🌍</div>
-            <h4>Scale &amp; Expand</h4>
-            <div class="rm-date">Jan 2027+</div>
-            <ul class="rm-features">
-              <li>Pro subscription</li>
-              <li>Android app</li>
-              <li>Group sessions</li>
-              <li>5+ cities</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
 <!-- ==================== FAQ ==================== -->
 <section id="faq" class="faq">
   <div class="wrap">
@@ -1001,11 +998,8 @@
       <div class="qa"><button>Is MatchYard free?<span class="ic">+</span></button><div class="ans"><p>Yes. Creating a profile, matching, and chatting are free. Optional Plus features for power users come later.</p></div></div>
       <div class="qa"><button>How does matching work?<span class="ic">+</span></button><div class="ans"><p>We rank nearby players by shared sports, how close your skill levels are, overlapping availability, and distance — then you decide who to swipe on.</p></div></div>
       <div class="qa"><button>Is this a dating app?<span class="ic">+</span></button><div class="ans"><p>No. MatchYard is only about finding people to play sports with. That's the whole point.</p></div></div>
-      <div class="qa"><button>Is it safe to meet up with people?<span class="ic">+</span></button><div class="ans"><p>Phone verification, photo review, and easy reporting and blocking come standard. We always nudge you to meet in public places. That said, meeting people you don't know carries real-world risk — take sensible precautions, tell a friend where you're going, and trust your instincts.</p></div></div>
-      <div class="qa"><button>How do I delete my account?<span class="ic">+</span></button><div class="ans"><p>You can delete your account at any time, directly in the app. Go to Profile → Delete Account. Deletion is permanent and removes your profile, posts, chats, messages, and ratings.</p></div></div>
-      <div class="qa"><button>How do I report a user or content?<span class="ic">+</span></button><div class="ans"><p>Tap the ⋯ menu on a profile, post, or chat and choose Report. You can also block a user from the same menu. We have a zero-tolerance policy for objectionable content and abusive users, and we act on reports — typically within 24 hours.</p></div></div>
-      <div class="qa"><button>What is the minimum age to use MatchYard?<span class="ic">+</span></button><div class="ans"><p>You must be at least 17 years old to use MatchYard.</p></div></div>
-      <div class="qa"><button>Which sports and cities are supported?<span class="ic">+</span></button><div class="ans"><p>We're launching with a focused set of sports in select cities and expanding as local communities grow. Join and we'll tell you what's active near you.</p></div></div>
+      <div class="qa"><button>Is it safe to meet up with people?<span class="ic">+</span></button><div class="ans"><p>Phone verification, photo review, and easy reporting and blocking come standard, and we always nudge you to meet in public places. That said, meeting people you don't know carries real-world risk — take sensible precautions, tell a friend where you're going, and trust your instincts.</p></div></div>
+      <div class="qa"><button>Which sports and cities are supported?<span class="ic">+</span></button><div class="ans"><p>We're launching with a focused set of sports in select cities and expanding as local communities grow. Join the waitlist and we'll tell you what's active near you.</p></div></div>
     </div>
   </div>
 </section>
@@ -1068,10 +1062,11 @@
 <footer>
   <div class="wrap">
     <div class="foot-grid">
-      <a href="#" class="logo" aria-label="MatchYard home"><img class="logo-img" src="logo.svg" alt="MatchYard" width="170" height="30" /></a>
+      <a href="#" class="logo" aria-label="MatchYard home"><img class="logo-img" src="logo.png" alt="MatchYard" width="173" height="30" /></a>
       <div class="foot-links">
         <a href="#features">Features</a>
         <a href="#how">How it works</a>
+        <a href="blog.html">Blog</a>
         <a href="#support">Support</a>
         <a href="privacy.html">Privacy</a>
         <a href="terms.html">Terms</a>
@@ -1097,11 +1092,8 @@
     {"@type":"Question","name":"Is MatchYard free?","acceptedAnswer":{"@type":"Answer","text":"Yes. Creating a profile, matching, and chatting are free. Optional Plus features for power users come later."}},
     {"@type":"Question","name":"How does matching work?","acceptedAnswer":{"@type":"Answer","text":"We rank nearby players by shared sports, how close your skill levels are, overlapping availability, and distance — then you decide who to swipe on."}},
     {"@type":"Question","name":"Is this a dating app?","acceptedAnswer":{"@type":"Answer","text":"No. MatchYard is only about finding people to play sports with. That's the whole point."}},
-    {"@type":"Question","name":"Is it safe to meet up with people?","acceptedAnswer":{"@type":"Answer","text":"Phone verification, photo review, and easy reporting and blocking come standard. We always nudge you to meet in public places. That said, meeting people you don't know carries real-world risk — take sensible precautions, tell a friend where you're going, and trust your instincts."}},
-    {"@type":"Question","name":"How do I delete my account?","acceptedAnswer":{"@type":"Answer","text":"You can delete your account at any time, directly in the app. Go to Profile → Delete Account. Deletion is permanent and removes your profile, posts, chats, messages, and ratings."}},
-    {"@type":"Question","name":"How do I report a user or content?","acceptedAnswer":{"@type":"Answer","text":"Tap the ⋯ menu on a profile, post, or chat and choose Report. You can also block a user from the same menu. We have a zero-tolerance policy for objectionable content and abusive users, and we act on reports — typically within 24 hours."}},
-    {"@type":"Question","name":"What is the minimum age to use MatchYard?","acceptedAnswer":{"@type":"Answer","text":"You must be at least 17 years old to use MatchYard."}},
-    {"@type":"Question","name":"Which sports and cities are supported?","acceptedAnswer":{"@type":"Answer","text":"We are launching with a focused set of sports in select cities and expanding as local communities grow. Join and we will tell you what is active near you."}}
+    {"@type":"Question","name":"Is it safe to meet up with people?","acceptedAnswer":{"@type":"Answer","text":"Phone verification, photo review, and easy reporting and blocking come standard, and we always nudge you to meet in public places. That said, meeting people you don't know carries real-world risk — take sensible precautions, tell a friend where you're going, and trust your instincts."}},
+    {"@type":"Question","name":"Which sports and cities are supported?","acceptedAnswer":{"@type":"Answer","text":"We are launching with a focused set of sports in select cities and expanding as local communities grow. Join the waitlist and we will tell you what is active near you."}}
   ]
 }
 </script>
@@ -1166,84 +1158,7 @@
     });
   }
 
-  /* ===== 2. ANIMATED STATS COUNTER ===== */
-  const statsEl = document.getElementById('statsSection');
-  let statsCounted = false;
-
-  function animateCount(el, target, duration){
-    const start = performance.now();
-    function tick(now){
-      const t = Math.min((now - start)/duration, 1);
-      const ease = 1 - Math.pow(1 - t, 3); // ease-out cubic
-      el.textContent = Math.round(target * ease);
-      if(t < 1) requestAnimationFrame(tick);
-    }
-    requestAnimationFrame(tick);
-  }
-
-  const statsIO = new IntersectionObserver(entries=>{
-    entries.forEach(e=>{
-      if(e.isIntersecting && !statsCounted){
-        statsCounted = true;
-        statsEl.classList.add('counted');
-        statsEl.querySelectorAll('.stat-num').forEach(n=>{
-          animateCount(n, parseInt(n.dataset.target), 1800);
-        });
-        statsIO.unobserve(e.target);
-      }
-    });
-  },{threshold:.3});
-  statsIO.observe(statsEl);
-
-  /* ===== 3. SHOWCASE CHAT/PLAY NOW ANIMATION ===== */
-  const showcaseEl = document.getElementById('showcasePhones');
-  let showcaseAnimated = false;
-
-  const showcaseIO = new IntersectionObserver(entries=>{
-    entries.forEach(e=>{
-      if(e.isIntersecting && !showcaseAnimated){
-        showcaseAnimated = true;
-        // Animate chat bubbles
-        showcaseEl.querySelectorAll('.chat-row').forEach(row=>{
-          const delay = parseInt(row.dataset.delay)||0;
-          setTimeout(()=> row.classList.add('show'), delay);
-        });
-        // Animate play now items
-        showcaseEl.querySelectorAll('.now-item').forEach(item=>{
-          const delay = parseInt(item.dataset.delay)||0;
-          setTimeout(()=> item.classList.add('show'), delay);
-        });
-        showcaseIO.unobserve(e.target);
-      }
-    });
-  },{threshold:.25});
-  showcaseIO.observe(showcaseEl);
-
-  /* ===== 4. ROADMAP PROGRESS ANIMATION ===== */
-  const rmSection = document.querySelector('.roadmap');
-  let rmAnimated = false;
-  const rmIO = new IntersectionObserver(entries=>{
-    entries.forEach(e=>{
-      if(e.isIntersecting && !rmAnimated){
-        rmAnimated = true;
-        rmSection.classList.add('counted');
-        // Stagger card reveals
-        rmSection.querySelectorAll('.rm-phase').forEach((ph,i)=>{
-          ph.style.opacity = '0';
-          ph.style.transform = 'translateY(20px)';
-          ph.style.transition = 'opacity .5s ease, transform .5s ease';
-          setTimeout(()=>{
-            ph.style.opacity = '1';
-            ph.style.transform = 'translateY(0)';
-          }, 200 * i);
-        });
-        rmIO.unobserve(e.target);
-      }
-    });
-  },{threshold:.15});
-  rmIO.observe(rmSection);
-
-  /* ===== 5. FAQ ACCORDION ===== */
+  /* ===== 2. FAQ ACCORDION ===== */
   document.querySelectorAll('.qa button').forEach(b=>{
     b.addEventListener('click',()=>{
       const qa=b.parentElement;
@@ -1266,7 +1181,7 @@
   /* ===== 6. SCROLL REVEAL (IntersectionObserver, staggered children) ===== */
   if(!reduceMotion && 'IntersectionObserver' in window){
     // stagger direct children of grids so cards cascade in
-    ['.pillars','.bento','.steps','.tgrid','.feat-phones','.badges'].forEach(sel=>{
+    ['.feat-grid','.steps','.tgrid','.badges'].forEach(sel=>{
       document.querySelectorAll(sel+' > *').forEach((el,i)=>{ el.style.transitionDelay=(i*70)+'ms'; });
     });
     const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12,rootMargin:'0px 0px -40px 0px'});
