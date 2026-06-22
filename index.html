@@ -106,7 +106,7 @@
   @keyframes aurora3{0%{transform:translate(0,0) scale(1)}100%{transform:translate(-6%,-7%) scale(1.15)}}
   .hero-grid{position:relative;z-index:1;display:grid;grid-template-columns:1.05fr .95fr;gap:3rem;align-items:center;padding:5rem 0 5rem}
   /* Big MY monogram hero moment */
-  .hero-mark{position:relative;width:clamp(112px,13vw,168px);height:clamp(112px,13vw,168px);margin-bottom:1.6rem;display:grid;place-items:center}
+  .hero-mark{position:relative;width:clamp(140px,16vw,205px);height:clamp(140px,16vw,205px);margin-bottom:1.6rem;display:grid;place-items:center}
   .hero-mark::before{content:"";position:absolute;inset:-38%;border-radius:50%;background:radial-gradient(circle,rgba(163,230,53,.30),rgba(0,229,195,.16) 45%,transparent 70%);filter:blur(6px);z-index:0;animation:markglow 6s ease-in-out infinite}
   @keyframes markglow{0%,100%{transform:scale(1);opacity:.85}50%{transform:scale(1.12);opacity:1}}
   .hero-mark img{position:relative;z-index:1;width:100%;height:100%;filter:drop-shadow(0 14px 30px rgba(0,0,0,.45))}
@@ -1399,10 +1399,15 @@
         const idx = Math.round(p*(n-1));
         bars.forEach((b,j)=> b.classList.toggle('on', j <= idx));
       };
-      const resetSteps = ()=> steps.forEach(s=>{ s.style.transform=''; s.style.opacity=''; s.style.zIndex=''; s.style.filter=''; s.classList.remove('focus'); });
+      const resetSteps = ()=> steps.forEach(s=>{
+        s.style.transition = 'transform .55s cubic-bezier(.22,1,.36,1), opacity .55s ease, filter .55s ease';
+        s.style.transform=''; s.style.opacity=''; s.style.zIndex=''; s.style.filter='';
+        s.classList.remove('focus');
+        setTimeout(()=>{ s.style.transition=''; }, 580);
+      });
       ScrollTrigger.create({
-        trigger: how, start:'top 14%', end:'+=1500',
-        pin:'.how .wrap', pinSpacing:true, scrub:.5,
+        trigger: how, start:'top 14%', end:'+=1700',
+        pin:'.how .wrap', pinSpacing:true, scrub:.9,
         onToggle: self => { how.classList.toggle('pinning', self.isActive); self.isActive ? focusStep(self.progress) : resetSteps(); },
         onUpdate: self => { if(self.isActive) focusStep(self.progress); }
       });
