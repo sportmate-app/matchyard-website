@@ -110,9 +110,9 @@
   .hero-mark::before{content:"";position:absolute;inset:-38%;border-radius:50%;background:radial-gradient(circle,rgba(163,230,53,.30),rgba(0,229,195,.16) 45%,transparent 70%);filter:blur(6px);z-index:0;animation:markglow 6s ease-in-out infinite}
   @keyframes markglow{0%,100%{transform:scale(1);opacity:.85}50%{transform:scale(1.12);opacity:1}}
   .hero-mark img{position:relative;z-index:1;width:100%;height:100%;filter:drop-shadow(0 14px 30px rgba(0,0,0,.45))}
-  .hero h1{font-size:clamp(2.6rem,5.6vw,4.2rem);font-weight:800}
+  .hero h1{font-size:clamp(2.6rem,5.6vw,4.2rem);font-weight:800;filter:drop-shadow(0 2px 14px rgba(10,17,32,.55))}
   .hero h1 .grad{background:var(--gradient);-webkit-background-clip:text;background-clip:text;color:transparent}
-  .hero .lead{font-size:clamp(1.05rem,1.6vw,1.28rem);color:var(--ink-soft);margin:1.5rem 0 2rem;max-width:34ch}
+  .hero .lead{font-size:clamp(1.05rem,1.6vw,1.28rem);color:var(--ink-soft);margin:1.5rem 0 2rem;max-width:34ch;text-shadow:0 1px 12px rgba(10,17,32,.75)}
   .hero-actions{display:flex;gap:.9rem;flex-wrap:wrap;align-items:center}
   .pill-note{display:inline-flex;align-items:center;gap:.5rem;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:.4rem .85rem;font-size:.82rem;font-weight:600;color:var(--ink-soft);box-shadow:var(--shadow-sm);margin-bottom:1.4rem}
   .pill-note b{color:var(--teal)}
@@ -411,8 +411,8 @@
 
   /* Effect 5 — hero background video */
   .hero-video{position:absolute;inset:0;z-index:0;overflow:hidden;background:#0A1120 center/cover no-repeat}
-  .hero-video video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.42}
-  .hero-video::after{content:"";position:absolute;inset:0;background:linear-gradient(100deg,rgba(10,17,32,.96) 0%,rgba(10,17,32,.8) 44%,rgba(10,17,32,.46) 100%),linear-gradient(0deg,rgba(10,17,32,.96) 0%,transparent 40%)}
+  .hero-video video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:1}
+  /* overlay removed — raw video plays uncovered (text stays legible via the shadows below) */
   .hero .aurora{z-index:1}
   .hero-grid{z-index:2}
 
