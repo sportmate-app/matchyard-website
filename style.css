@@ -15,9 +15,9 @@
   --ink: #f2f4f7;            /* primary text (off-white on dark) */
   --ink-soft: #9ba6b8;       /* secondary / muted text */
   --line: #2a3445;           /* hairline borders */
-  --bg: #0a1120;             /* near-black navy background */
-  --bg-alt: #1b2330;         /* elevated surfaces / cards */
-  --on-accent: #0a1120;      /* ink-navy text on lime fills */
+  --bg: #060a14;             /* near-black navy background (matches logo) */
+  --bg-alt: #161e2c;         /* elevated surfaces / cards */
+  --on-accent: #060a14;      /* ink-navy text on lime fills */
 
   --max-width: 760px;
   --radius: 14px;
