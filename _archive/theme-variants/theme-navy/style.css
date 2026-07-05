@@ -3,21 +3,21 @@
    Dark-first brand (matches the brand sheet); light mode supported below. */
 
 :root {
-  /* Brand palette */
-  --lime: #A3E635;           /* primary accent — CTAs, active states */
-  --teal: #00e5c3;           /* secondary accent — links, gradient end */
-  --gradient: linear-gradient(135deg, #A3E635, #00e5c3);
+  /* Brand palette — Midnight Navy · Emerald Green · Ocean Blue */
+  --lime: #00CC78;           /* sports green — primary accent */
+  --teal: #0077FF;           /* electric blue — secondary accent */
+  --gradient: linear-gradient(120deg, #00CC78 0%, #00AAEE 52%, #0077FF 100%);
 
-  /* Semantic tokens (dark mode — the hero) */
-  --brand: var(--lime);      /* primary accent alias */
-  --brand-dark: var(--teal); /* link / secondary accent alias */
-  --brand-tint: #15351f;     /* muted lime-tinted surface for callouts */
-  --ink: #f2f4f7;            /* primary text (off-white on dark) */
-  --ink-soft: #9ba6b8;       /* secondary / muted text */
-  --line: #2a3445;           /* hairline borders */
-  --bg: #060a14;             /* near-black navy background (matches logo) */
-  --bg-alt: #161e2c;         /* elevated surfaces / cards */
-  --on-accent: #060a14;      /* ink-navy text on lime fills */
+  /* Semantic tokens */
+  --brand: var(--lime);
+  --brand-dark: #00A8E0;
+  --brand-tint: #071E28;
+  --ink: #EDF2FA;
+  --ink-soft: #7A95B4;
+  --line: #1A2E4A;
+  --bg: #030D1C;
+  --bg-alt: #091525;
+  --on-accent: #011018;
 
   --max-width: 760px;
   --radius: 14px;
@@ -26,8 +26,8 @@
 /* Light mode — supported, kept polished. Dark remains the default/hero. */
 @media (prefers-color-scheme: light) {
   :root {
-    --brand-dark: #00b89b;   /* darker teal for legible links on white */
-    --brand-tint: #effff5;   /* very light lime tint */
+    --brand-dark: #009966;   /* darker teal for legible links on white */
+    --brand-tint: #f0fff4;   /* very light lime tint */
     --ink: #0a1120;          /* near-black text */
     --ink-soft: #5a6677;     /* secondary text */
     --line: #e2e6ec;         /* hairline borders */
@@ -142,7 +142,7 @@ summary:focus-visible {
 
 /* When the brand uses the actual SVG logo, size it consistently */
 .brand .logo-img {
-  height: 1.7rem;
+  height: 2.4rem;
   width: auto;
   display: block;
   flex: 0 0 auto;

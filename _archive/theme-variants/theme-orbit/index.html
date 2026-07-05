@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#110d21">
+  <meta name="description" content="MatchYard is building a better way to find nearby players and organize the games you want to play.">
+  <title>MatchYard Orbit — Find your next game</title>
+  <link rel="icon" href="../favicon.png" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="header" id="header">
+    <a href="#" class="brand" aria-label="MatchYard home">
+      <span class="brand-icon" aria-hidden="true"><i></i><b></b></span>
+      <span>matchyard</span>
+    </a>
+    <nav class="nav-links" aria-label="Main navigation">
+      <a href="#preview">Product</a>
+      <a href="#idea">The idea</a>
+      <a href="#sports">Sports</a>
+      <a href="#access">Early access</a>
+    </nav>
+    <a class="header-cta" href="#access">Join the founding list <span>↗</span></a>
+    <button class="menu-button" type="button" aria-label="Open menu" aria-expanded="false"><i></i><i></i></button>
+  </header>
+
+  <main id="main">
+    <section class="hero">
+      <div class="hero-media" aria-hidden="true"></div>
+      <div class="hero-overlay" aria-hidden="true"></div>
+      <div class="court-graphic" aria-hidden="true"><i></i><i></i><i></i></div>
+      <div class="hero-copy">
+        <div class="prelaunch"><span></span> PRIVATE BETA IN DEVELOPMENT</div>
+        <h1>THE GAME<br>IS <em>OUT THERE.</em></h1>
+        <p>MatchYard is building a smarter way to discover nearby players, shape a game around your level, and spend less time asking who’s free.</p>
+        <div class="hero-actions">
+          <a href="#access" class="primary">Request early access <span>↗</span></a>
+          <a href="#preview" class="secondary"><i>↓</i> Explore the product</a>
+        </div>
+      </div>
+      <div class="hero-detail">
+        <span>THE PREMISE</span>
+        <p>Your sport.<br>Your level.<br>Your schedule.</p>
+        <i></i>
+      </div>
+      <div class="hero-caption">ORIGINAL MATCHYARD CAMPAIGN / TENNIS STUDY 01</div>
+    </section>
+
+    <section class="intro" id="idea">
+      <span class="section-id">01 / THE IDEA</span>
+      <div class="intro-main reveal">
+        <p class="serif-lead">The people you’d love to play with are probably closer than you think.</p>
+        <h2>WE’RE MAKING<br>THE INTRODUCTION.</h2>
+      </div>
+      <p class="intro-note reveal">MatchYard is an early-stage app concept for local sport: player discovery, compatibility, game creation, and simple coordination in one focused place.</p>
+      <div class="truth-strip reveal">
+        <div><span>STATUS</span><strong>Pre-launch</strong><small>Product in development</small></div>
+        <div><span>FOCUS</span><strong>Local play</strong><small>Real people, real availability</small></div>
+        <div><span>FIRST STEP</span><strong>Founding list</strong><small>Help shape what ships</small></div>
+      </div>
+    </section>
+
+    <section class="preview" id="preview">
+      <div class="preview-head reveal">
+        <div><span class="section-id">02 / PRODUCT PREVIEW</span><h2>BUILT AROUND<br><em>THE MOMENT<br>YOU’RE FREE.</em></h2></div>
+        <p>This interactive concept shows how MatchYard could help you move from “I want to play” to a confirmed game nearby.</p>
+      </div>
+
+      <div class="phone-scene reveal">
+        <div class="scene-orbits" aria-hidden="true"><i></i><i></i><i></i></div>
+        <aside class="concept-note note-one"><span>01</span><strong>Choose a sport</strong><p>Set the level, distance, and time that works.</p></aside>
+        <aside class="concept-note note-two"><span>02</span><strong>Review compatibility</strong><p>See why a player or game could fit.</p></aside>
+
+        <div class="phone">
+          <div class="phone-body">
+            <div class="island"></div>
+            <div class="screen">
+              <div class="phone-status"><span>9:41</span><span>● ◔ ▰</span></div>
+
+              <section class="screen-view active" data-view="discover">
+                <div class="app-title"><div><small>PRODUCT PREVIEW</small><h3>What do you want to play?</h3></div><button type="button" class="profile-trigger" aria-label="Open profile">A</button></div>
+                <div class="sport-choice" role="tablist" aria-label="Choose sport">
+                  <button class="active" role="tab" aria-selected="true" data-sport="tennis">Tennis</button>
+                  <button role="tab" aria-selected="false" data-sport="basketball">Basketball</button>
+                  <button role="tab" aria-selected="false" data-sport="running">Running</button>
+                </div>
+                <div class="availability-card">
+                  <div><small>WHEN</small><button type="button" id="timeChoice">Tonight after 6 <span>⌄</span></button></div>
+                  <div><small>RADIUS</small><button type="button" id="radiusChoice">Within 5 miles <span>⌄</span></button></div>
+                  <button class="find-button" type="button">Find potential matches <span>→</span></button>
+                </div>
+                <div class="preview-label"><span>EXAMPLE RESULTS</span><i>Sample data for product demonstration</i></div>
+                <div class="result-stack">
+                  <article class="match-card active-result" data-result="tennis">
+                    <div class="result-top"><div class="sample-avatar purple">SK</div><div><small>TENNIS · 3.5–4.0</small><strong>Sam K.</strong><span>Example player · 1.2 mi</span></div><b>94%</b></div>
+                    <div class="fit-bars"><span>Skill<i><b style="width:94%"></b></i></span><span>Timing<i><b style="width:88%"></b></i></span><span>Distance<i><b style="width:91%"></b></i></span></div>
+                    <button class="connect-button" type="button">Send a sample request</button>
+                  </article>
+                  <article class="match-card" data-result="basketball">
+                    <div class="result-top"><div class="sample-avatar coral">DT</div><div><small>BASKETBALL · COMPETITIVE</small><strong>Devin T.</strong><span>Example player · 2.0 mi</span></div><b>91%</b></div>
+                    <div class="fit-bars"><span>Skill<i><b style="width:91%"></b></i></span><span>Timing<i><b style="width:92%"></b></i></span><span>Distance<i><b style="width:80%"></b></i></span></div>
+                    <button class="connect-button" type="button">Send a sample request</button>
+                  </article>
+                  <article class="match-card" data-result="running">
+                    <div class="result-top"><div class="sample-avatar blue">MR</div><div><small>RUNNING · 8:00/MI</small><strong>Maya R.</strong><span>Example player · .8 mi</span></div><b>89%</b></div>
+                    <div class="fit-bars"><span>Pace<i><b style="width:89%"></b></i></span><span>Timing<i><b style="width:95%"></b></i></span><span>Distance<i><b style="width:96%"></b></i></span></div>
+                    <button class="connect-button" type="button">Send a sample request</button>
+                  </article>
+                </div>
+              </section>
+
+              <section class="screen-view map-screen" data-view="around">
+                <div class="map-head"><button type="button" class="back-discover">←</button><div><small>CONCEPT MAP</small><h3>Potential matches nearby</h3></div><button type="button">≡</button></div>
+                <div class="map-canvas">
+                  <span class="road r1"></span><span class="road r2"></span><span class="road r3"></span>
+                  <div class="map-you">YOU</div><i class="range a"></i><i class="range b"></i>
+                  <button class="person-pin selected" type="button" data-name="Sam K." data-score="94%" data-info="Tennis · 3.8 · Example profile"><span>SK</span><b>94</b></button>
+                  <button class="person-pin p2" type="button" data-name="Devin T." data-score="91%" data-info="Basketball · Competitive · Example profile"><span>DT</span><b>91</b></button>
+                  <button class="person-pin p3" type="button" data-name="Maya R." data-score="89%" data-info="Running · 8:00/mi · Example profile"><span>MR</span><b>89</b></button>
+                </div>
+                <div class="map-sheet">
+                  <small>EXAMPLE COMPATIBILITY</small>
+                  <div><div class="sample-avatar purple" id="mapAvatar">SK</div><span><strong id="mapName">Sam K.</strong><small id="mapInfo">Tennis · 3.8 · Example profile</small></span><b id="mapScore">94%</b></div>
+                  <button type="button" class="map-request">Send sample request</button>
+                </div>
+              </section>
+
+              <section class="screen-view plan-screen" data-view="plan">
+                <div class="app-title"><div><small>GAME BUILDER</small><h3>Shape the game.</h3></div><button type="button">•••</button></div>
+                <div class="plan-sport"><span>TENNIS</span><strong>Singles practice</strong><small>Example game draft</small></div>
+                <div class="plan-row"><i>01</i><div><small>WHEN</small><strong>Wednesday · 7:00 PM</strong></div><b>✓</b></div>
+                <div class="plan-row"><i>02</i><div><small>WHERE</small><strong>Echo Park Tennis Courts</strong></div><b>✓</b></div>
+                <div class="plan-row"><i>03</i><div><small>LEVEL</small><strong>3.5–4.0 · Competitive</strong></div><b>✓</b></div>
+                <div class="plan-row"><i>04</i><div><small>PLAYERS</small><strong>1 spot available</strong></div><b>＋</b></div>
+                <button class="publish-demo" type="button">Preview game post</button>
+                <p class="plan-disclaimer">Demonstration only. No game will be published.</p>
+              </section>
+
+              <section class="screen-view profile-screen" data-view="profile">
+                <div class="profile-band"><button type="button">•••</button><div class="profile-avatar">A</div></div>
+                <div class="profile-body"><small>YOUR FUTURE PLAYER CARD</small><h3>Alex Morgan</h3><p>Example profile · Los Angeles</p>
+                  <div class="profile-grid"><div><strong>3.8</strong><span>Tennis level</span></div><div><strong>Weeknights</strong><span>Availability</span></div></div>
+                  <div class="profile-sport"><span>TENNIS</span><i><b style="width:76%"></b></i><small>Advanced intermediate</small></div>
+                  <div class="profile-sport"><span>BASKETBALL</span><i><b style="width:68%"></b></i><small>Recreational competitive</small></div>
+                  <div class="beta-note"><span>PRIVATE BETA</span><p>Early members will help us refine profiles, matching, and game creation.</p></div>
+                </div>
+              </section>
+
+              <nav class="app-nav" aria-label="Product preview navigation">
+                <button class="active" data-target="discover"><i>◇</i><span>Discover</span></button>
+                <button data-target="around"><i>⌖</i><span>Around</span></button>
+                <button class="create" data-target="plan"><i>＋</i><span>Plan</span></button>
+                <button data-target="profile"><i>○</i><span>Profile</span></button>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="principles">
+      <div class="principles-head reveal"><span class="section-id">03 / PRODUCT PRINCIPLES</span><h2>LESS FEED.<br><em>MORE FIELD.</em></h2></div>
+      <div class="principle-grid">
+        <article class="reveal"><span>01</span><div class="principle-art rings"><i></i><i></i><b>FIT</b></div><h3>Compatibility over popularity.</h3><p>Sport, level, timing, and distance matter more than follower counts.</p></article>
+        <article class="reveal"><span>02</span><div class="principle-art clock"><i></i><b>7:00</b><small>FREE</small></div><h3>Availability that means something.</h3><p>Build around the time people can genuinely show up.</p></article>
+        <article class="reveal"><span>03</span><div class="principle-art route"><i></i><b>1.2 MI</b><small>NEARBY</small></div><h3>Local enough to become a habit.</h3><p>The best game is one you can realistically make part of your week.</p></article>
+      </div>
+    </section>
+
+    <section class="sports" id="sports">
+      <div class="sports-head reveal"><span class="section-id">04 / MORE THAN ONE WAY TO PLAY</span><h2>A NETWORK<br>FOR <em>MOVEMENT.</em></h2></div>
+      <div class="sport-layout">
+        <article class="photo-card tennis-card reveal"><img src="assets/tennis-editorial.png" alt="A female tennis player walking alone along the baseline"><div class="photo-label"><span>01 / TENNIS</span><strong>Find the right rally.</strong></div></article>
+        <article class="photo-card basketball-card reveal"><img src="assets/basketball-editorial.png" alt="A basketball player taking a jump shot alone on a city court"><div class="photo-label"><span>02 / BASKETBALL</span><strong>Build the next run.</strong></div></article>
+        <article class="photo-card running-card reveal"><img src="assets/running-editorial.png" alt="A runner accelerating alone through an architectural city passage"><div class="photo-label"><span>03 / RUNNING</span><strong>Match your pace.</strong></div></article>
+        <div class="sport-index reveal"><span>04</span><strong>Pickleball</strong><i>↗</i><span>05</span><strong>Soccer</strong><i>↗</i><span>06</span><strong>Volleyball</strong><i>↗</i><span>07+</span><strong>More to come</strong><i>↗</i></div>
+      </div>
+    </section>
+
+    <section class="founding" id="access">
+      <div class="founding-orbit" aria-hidden="true"><i></i><i></i><b></b></div>
+      <div class="founding-copy reveal">
+        <span class="section-id">PRIVATE BETA / FOUNDING ACCESS</span>
+        <p class="serif-lead">A better sports network should be built with the people who will actually use it.</p>
+        <h2>HELP SHAPE<br>THE FIRST SERVE.</h2>
+        <p>Join the founding list for product updates, early testing opportunities, and a note when MatchYard is ready in your area.</p>
+        <form class="waitlist-form">
+          <label class="sr-only" for="email">Email address</label>
+          <input id="email" type="email" autocomplete="email" placeholder="EMAIL ADDRESS" required>
+          <button type="submit">Join the list <span>↗</span></button>
+        </form>
+        <div class="form-status" role="status">No invented urgency. No spam. Just honest product updates.</div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <a href="#" class="brand"><span class="brand-icon"><i></i><b></b></span><span>matchyard</span></a>
+    <p>Find your game.<br>Find your people.</p>
+    <div class="footer-links"><a href="#preview">Product</a><a href="#idea">The idea</a><a href="#sports">Sports</a><a href="../privacy.html">Privacy</a><a href="../terms.html">Terms</a><a href="mailto:support@matchyard.us">Support</a></div>
+    <div class="footer-bottom"><span>© 2026 MATCHYARD</span><span>PRE-LAUNCH PRODUCT CONCEPT</span></div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+# Block the archived old theme variants from indexing
+Disallow: /_archive/
+
+Sitemap: https://matchyard.us/sitemap.xml

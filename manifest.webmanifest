@@ -1,0 +1,14 @@
+{
+  "name": "MatchYard — Find players & games near you",
+  "short_name": "MatchYard",
+  "description": "Find sports partners, pickup games and clubs near you. Match by sport, skill level and availability.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0A0D12",
+  "theme_color": "#0A0D12",
+  "orientation": "portrait",
+  "icons": [
+    { "src": "./apple-touch-icon.png", "sizes": "180x180", "type": "image/png", "purpose": "any" },
+    { "src": "./icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}
