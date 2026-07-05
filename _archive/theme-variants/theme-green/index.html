@@ -872,6 +872,235 @@
   .feat-card:nth-child(2):hover,.feat-card:nth-child(4):hover,.feat-card:nth-child(6):hover{
     border-color:rgba(168,240,62,.42);box-shadow:var(--glow-violet)}
   .tcard:nth-child(2):hover{border-color:rgba(168,240,62,.4)}
+
+  /* =====================================================================
+     GREEN THEME — SPORTS PHOTO HERO + PREMIUM GREEN TREATMENT
+     High-quality athletic photography with a deep green-navy colour grade
+     that locks the photos to the site's volt-green palette.
+     ===================================================================== */
+
+  /* Restore the photo slideshow */
+  .hero-slides { display: block; }
+
+  /* ── PHOTO DRAMA: boost contrast + saturation on each slide ───────── */
+  .hero-slides .slide {
+    filter: contrast(1.22) saturate(1.12) brightness(0.94);
+  }
+
+  /* ── COLOUR GRADE: deep green-over-photo tint ───────────────────── */
+  .hero-tint {
+    position: absolute; inset: 0; z-index: 1; pointer-events: none;
+    background: rgba(2,14,6,.22);
+    mix-blend-mode: multiply;
+  }
+
+  /* ── SCRIM: dramatic left-dark / right-open split ────────────────── */
+  .hero-editorial .hero-scrim {
+    background:
+      linear-gradient(180deg,
+        rgba(3,10,5,.42) 0%,  rgba(3,10,5,.04) 16%,
+        rgba(3,10,5,.30) 60%, rgba(3,10,5,.95) 84%, var(--bg) 100%),
+      linear-gradient(90deg,
+        rgba(3,10,5,.97) 0%,  rgba(3,10,5,.65) 30%,
+        rgba(3,10,5,.04) 56%, transparent 100%);
+  }
+
+  /* ── VOLT-GREEN AURORA: strong left-edge energy halo ─────────────── */
+  .hero-editorial::after {
+    content:""; position:absolute; inset:0; z-index:1; pointer-events:none;
+    background:
+      radial-gradient(62% 72% at -4% 42%, rgba(109,228,24,.22), transparent 68%),
+      radial-gradient(38% 44% at 2%  82%, rgba(0,204,168,.14),  transparent 62%),
+      radial-gradient(28% 28% at 18% 98%, rgba(109,228,24,.10), transparent 58%);
+  }
+
+  /* =====================================================================
+     LOGO WORDMARK — precise volt shift for nav logo
+     -92° maps: cyan/teal logo tones → volt #6DE418, white stays white.
+     ===================================================================== */
+  .logo-img {
+    filter:
+      hue-rotate(-92deg) saturate(1.55) brightness(1.10)
+      drop-shadow(0 2px 12px rgba(0,0,0,.55));
+  }
+
+  /* =====================================================================
+     HERO APP ICON — premium gradient ring + natural colour shift
+     Icon PNG has its OWN dark background (RGBA corners only transparent),
+     so no ::before fill needed — the wrapper gradient ring shows in
+     the 2px gap between icon edges and wrapper.
+     ===================================================================== */
+  .hero-mark-wrap {
+    display: inline-block;
+    position: relative;
+    border-radius: 26px;
+    margin-bottom: 1.5rem;
+    padding: 2px;
+    /* Volt → teal → volt gradient ring — Nike dual-accent palette */
+    background: linear-gradient(135deg,
+      #A8F03E 0%, #6DE418 28%, #1FE3D2 56%, #6DE418 82%, #A8F03E 100%);
+    /* Cinematic layered glow */
+    box-shadow:
+      0 0 30px  rgba(109,228,24,.52),
+      0 0 75px  rgba(109,228,24,.22),
+      0 0 130px rgba(0,204,168,.13),
+      0 32px 80px rgba(0,0,0,.88);
+  }
+
+  /* Icon hue-shift: icon navy bg (215°) → -92° → 123° (deep forest green)
+     Icon cyan figures (175°) → -92° → 83° (volt lime). Moderate saturate
+     keeps it rich, not garish neon. */
+  .hero-mark-img {
+    display: block;
+    margin-bottom: 0;
+    height: clamp(84px, 8.5vw, 106px) !important;
+    width: auto;
+    border-radius: 22px;
+    filter:
+      hue-rotate(-92deg)
+      saturate(1.28)
+      brightness(1.08)
+      drop-shadow(0 0 28px rgba(109,228,24,.68))
+      drop-shadow(0 14px 38px rgba(0,0,0,.75));
+  }
+
+  /* Remove dark-fill ::before — icon provides its own opaque background */
+  .hero-mark-wrap::before { display: none; }
+
+  /* =====================================================================
+     NAV CTA — outlined pill with arrow circle, Nike reference style
+     ===================================================================== */
+  header.nav .btn-primary {
+    background: transparent !important;
+    border: 1.5px solid var(--lime) !important;
+    color: var(--lime) !important;
+    box-shadow: none !important;
+    border-radius: 999px !important;
+    padding: .6rem 1rem .6rem 1.3rem !important;
+    display: inline-flex; align-items: center; gap: .6rem;
+  }
+  header.nav .btn-primary::after { display: none; }
+  header.nav .btn-primary .nav-arr {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 26px; height: 26px; border-radius: 50%;
+    background: var(--lime); color: #040D04;
+    font-size: .95rem; flex-shrink: 0; font-weight: 900;
+  }
+  header.nav .btn-primary:hover {
+    background: rgba(109,228,24,.09) !important; transform: none !important;
+    box-shadow: 0 0 22px rgba(109,228,24,.22) !important; filter: none !important;
+  }
+
+  /* =====================================================================
+     SPORT RIBBON — live scrolling marquee with auto-advancing active sport
+     Hides old marquee, replaces with icon+label strip that loops endlessly.
+     Active sport glows green and cycles every 7 s (matched to hero slides).
+     ===================================================================== */
+  .trust { display: none; }
+
+  .sport-cats {
+    background: rgba(5,9,6,.97);
+    border-top: 1px solid rgba(109,228,24,.10);
+    border-bottom: 1px solid rgba(255,255,255,.04);
+    padding: .52rem 0;
+    position: relative; overflow: hidden; z-index: 2;
+  }
+  /* Fade-out edges so the loop feels seamless */
+  .sport-cats::before, .sport-cats::after {
+    content: ""; position: absolute; top: 0; bottom: 0;
+    width: 90px; z-index: 3; pointer-events: none;
+  }
+  .sport-cats::before { left: 0; background: linear-gradient(90deg, rgba(5,9,6,1), transparent); }
+  .sport-cats::after  { right:0; background: linear-gradient(270deg, rgba(5,9,6,1), transparent); }
+
+  .scat-inner {
+    display: flex; width: max-content;
+    animation: scat-march 40s linear infinite;
+  }
+  .scat-inner:hover { animation-play-state: paused; }
+  @keyframes scat-march {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+
+  .scat {
+    display: flex; flex-direction: column; align-items: center; gap: .3rem;
+    padding: .38rem 1.3rem; min-width: 82px; flex-shrink: 0;
+    color: var(--muted); font-family: var(--display); font-weight: 700;
+    font-size: .62rem; text-transform: uppercase; letter-spacing: .07em;
+    cursor: pointer; white-space: nowrap; position: relative;
+    transition: color .3s;
+  }
+  .scat .s-ico {
+    font-size: 1.55rem; display: block; line-height: 1;
+    transition: transform .3s cubic-bezier(.34,1.56,.64,1), filter .3s;
+  }
+  .scat.active { color: #ffffff; }
+  /* Green underline indicator on active sport */
+  .scat.active::after {
+    content: ""; position: absolute; bottom: -1px; left: 22%; right: 22%;
+    height: 2px; border-radius: 2px;
+    background: var(--lime);
+    box-shadow: 0 0 8px rgba(109,228,24,.65), 0 0 2px rgba(109,228,24,1);
+  }
+  .scat.active .s-ico {
+    transform: scale(1.18);
+    filter: drop-shadow(0 0 8px rgba(109,228,24,.7));
+  }
+  .scat:hover:not(.active) { color: var(--ink-soft); }
+  .scat:hover:not(.active) .s-ico { transform: scale(1.06); }
+
+  /* =====================================================================
+     FLOAT CARDS — frosted glass, green-edged
+     ===================================================================== */
+  .float-card {
+    font-family: var(--display); font-size: .87rem; font-weight: 600;
+    backdrop-filter: blur(16px) saturate(1.4);
+    background: rgba(8,18,12,.78);
+    border: 1px solid rgba(109,228,24,.22);
+    border-radius: 16px;
+  }
+  .fc-ico { border-radius: 50% !important; width: 36px; height: 36px; }
+  .fc-confirm { bottom: 3%; right: -9%; animation: fc-pop .5s ease 2s both; }
+  .fc-avatars { display: flex; align-items: center; margin-right: .5rem; }
+  .fc-av {
+    width: 24px; height: 24px; border-radius: 50%;
+    border: 2px solid rgba(8,18,12,.9); margin-right: -8px; flex-shrink: 0;
+  }
+  .fc-av1 { background: linear-gradient(135deg,#6DE418,#1FE3D2); }
+  .fc-av2 { background: linear-gradient(135deg,#F59E0B,#EF4444); }
+  .fc-av3 { background: linear-gradient(135deg,#A8F03E,#1FE3D2); }
+
+  /* ── EYEBROW INDICATOR: strip the pill bubble, go Nike minimal ─────── */
+  .pill-note {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    padding: 0 !important;
+    color: rgba(109,228,24,.9) !important;
+    font-size: .72rem !important;
+    font-weight: 700 !important;
+    letter-spacing: .14em !important;
+    text-transform: uppercase !important;
+    margin-bottom: 1.1rem !important;
+    gap: .5rem !important;
+    backdrop-filter: none !important;
+  }
+  .pill-note .dot {
+    width: 5px !important; height: 5px !important;
+    background: #6DE418 !important;
+    box-shadow: 0 0 0 0 rgba(109,228,24,.5) !important;
+    animation: live-dot 1.8s ease-out infinite !important;
+    flex-shrink: 0;
+  }
+  .pill-note::before { display: none; }
+
+  @media (max-width: 900px) {
+    .scat-inner { animation-duration: 28s; }
+    .sport-cats::before, .sport-cats::after { width: 50px; }
+    header.nav .btn-primary .nav-arr { display: none; }
+  }
 </style>
 <!-- No-JS fallback: reveal-on-scroll relies on JS; without it, show everything. -->
 <noscript><style>.reveal{opacity:1!important;transform:none!important}.shot{display:none!important}</style></noscript>
@@ -892,7 +1121,7 @@
       <a href="#support">Support</a>
     </nav>
     <div class="nav-cta">
-      <a href="#waitlist" class="btn btn-primary">Join waitlist</a>
+      <a href="#waitlist" class="btn btn-primary">Join waitlist <span class="nav-arr">→</span></a>
       <button class="hamburger" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
     </div>
   </div>
@@ -902,19 +1131,22 @@
 <section class="hero hero-editorial">
   <!-- Looping athletic photography (soccer · basketball · volleyball · tennis · running) -->
   <div class="hero-media" aria-hidden="true">
+    <!-- High-quality sports photography crossfade slideshow -->
     <div class="hero-slides">
-      <div class="slide" style="background-image:url('../assets/img/play-soccer.jpg')"></div>
-      <div class="slide" style="background-image:url('../assets/img/play-hoops.jpg')"></div>
-      <div class="slide" style="background-image:url('../assets/img/play-volleyball.jpg')"></div>
-      <div class="slide" style="background-image:url('../assets/img/play-tennis.jpg')"></div>
-      <div class="slide" style="background-image:url('../assets/img/play-badminton.jpg')"></div>
-      <div class="slide" style="background-image:url('../assets/img/play-soccer2.jpg')"></div>
+      <div class="slide" style="background-image:url('../assets/img/play-tennis.jpg');background-position:center 30%"></div>
+      <div class="slide" style="background-image:url('../assets/img/play-soccer.jpg');background-position:center 40%"></div>
+      <div class="slide" style="background-image:url('../assets/img/play-hoops.jpg');background-position:center 35%"></div>
+      <div class="slide" style="background-image:url('../assets/img/play-volleyball.jpg');background-position:center 30%"></div>
+      <div class="slide" style="background-image:url('../assets/img/play-badminton.jpg');background-position:center 30%"></div>
+      <div class="slide" style="background-image:url('../assets/img/play-soccer2.jpg');background-position:center 40%"></div>
     </div>
+    <!-- Green colour-grade layer: tints photos to match site palette -->
+    <div class="hero-tint"></div>
     <div class="hero-scrim"></div>
   </div>
   <div class="wrap hero-grid">
     <div class="hero-copy">
-      <img class="hero-mark-img" src="../logo-mark.png" alt="MatchYard" width="78" height="50" />
+      <div class="hero-mark-wrap"><img class="hero-mark-img" src="../logo-mark.png" alt="MatchYard" width="78" height="50" /></div>
       <span class="pill-note"><span class="dot"></span> Now matching players near you</span>
       <h1>Find your game.<br><span class="grad">Find your people.</span></h1>
       <p class="lead">Tennis, basketball, soccer, pickleball — whatever you play, MatchYard connects you with players nearby at your level and on your schedule.</p>
@@ -927,8 +1159,9 @@
 
     <!-- The app, on a phone -->
     <div class="phone-stage">
-      <div class="float-card fc-match"><span class="fc-ico" style="background:linear-gradient(135deg,#6DE418,#1FE3D2);color:#060A18">✓</span> It's a match!</div>
-      <div class="float-card fc-now"><span class="fc-ico" style="background:#6DE418;color:#060A18">⚡</span> 3 players free at&nbsp;6pm</div>
+      <div class="float-card fc-match"><span class="fc-ico" style="background:linear-gradient(135deg,#1FE3D2,#6DE418);color:#060A18">✓</span><span><b>It's a match!</b><br><span style="font-weight:400;font-size:.78rem;color:var(--ink-soft)">Let's play.</span></span></div>
+      <div class="float-card fc-now"><span class="fc-ico" style="background:#F59E0B;color:#0A0600">⚡</span><span>3 players free<br><span style="font-weight:400;font-size:.78rem;color:var(--ink-soft)">at 6pm</span></span></div>
+      <div class="float-card fc-confirm"><div class="fc-avatars"><div class="fc-av fc-av1"></div><div class="fc-av fc-av2"></div><div class="fc-av fc-av3"></div></div><span><b>+2</b> Game confirmed</span></div>
       <div class="phone" id="heroPhone">
         <div class="notch"></div>
         <div class="phone-screen">
@@ -963,34 +1196,35 @@
   </div>
 </section>
 
-<!-- ==================== ANIMATED TRUST MARQUEE ==================== -->
-<div class="trust">
-  <div class="trust-track" id="trustTrack">
-    <span class="sport-item"><span class="sport-emoji">🎾</span> Tennis</span>
-    <span class="sport-item"><span class="sport-emoji">🏀</span> Basketball</span>
-    <span class="sport-item"><span class="sport-emoji">🥒</span> Pickleball</span>
-    <span class="sport-item"><span class="sport-emoji">🏃</span> Running</span>
-    <span class="sport-item"><span class="sport-emoji">🚴</span> Cycling</span>
-    <span class="sport-item"><span class="sport-emoji">⚽</span> Soccer</span>
-    <span class="sport-item"><span class="sport-emoji">🏐</span> Volleyball</span>
-    <span class="sport-item"><span class="sport-emoji">🏸</span> Badminton</span>
-    <span class="sport-item"><span class="sport-emoji">🏊</span> Swimming</span>
-    <span class="sport-item"><span class="sport-emoji">🧘</span> Yoga</span>
-    <span class="sport-item"><span class="sport-emoji">🥊</span> Boxing</span>
-    <span class="sport-item"><span class="sport-emoji">⛳</span> Golf</span>
-    <!-- Duplicated for seamless loop -->
-    <span class="sport-item"><span class="sport-emoji">🎾</span> Tennis</span>
-    <span class="sport-item"><span class="sport-emoji">🏀</span> Basketball</span>
-    <span class="sport-item"><span class="sport-emoji">🥒</span> Pickleball</span>
-    <span class="sport-item"><span class="sport-emoji">🏃</span> Running</span>
-    <span class="sport-item"><span class="sport-emoji">🚴</span> Cycling</span>
-    <span class="sport-item"><span class="sport-emoji">⚽</span> Soccer</span>
-    <span class="sport-item"><span class="sport-emoji">🏐</span> Volleyball</span>
-    <span class="sport-item"><span class="sport-emoji">🏸</span> Badminton</span>
-    <span class="sport-item"><span class="sport-emoji">🏊</span> Swimming</span>
-    <span class="sport-item"><span class="sport-emoji">🧘</span> Yoga</span>
-    <span class="sport-item"><span class="sport-emoji">🥊</span> Boxing</span>
-    <span class="sport-item"><span class="sport-emoji">⛳</span> Golf</span>
+<!-- ==================== SPORT RIBBON (live scrolling) ==================== -->
+<div class="sport-cats" aria-label="Sports on MatchYard" id="sportRibbon">
+  <div class="scat-inner" id="scatInner">
+    <!-- First set -->
+    <div class="scat active" data-sport="0"><span class="s-ico">🏀</span>Basketball</div>
+    <div class="scat" data-sport="1"><span class="s-ico">🥒</span>Pickleball</div>
+    <div class="scat" data-sport="2"><span class="s-ico">🏃</span>Running</div>
+    <div class="scat" data-sport="3"><span class="s-ico">🚴</span>Cycling</div>
+    <div class="scat" data-sport="4"><span class="s-ico">⚽</span>Soccer</div>
+    <div class="scat" data-sport="5"><span class="s-ico">🎾</span>Tennis</div>
+    <div class="scat" data-sport="6"><span class="s-ico">🏐</span>Volleyball</div>
+    <div class="scat" data-sport="7"><span class="s-ico">🏸</span>Badminton</div>
+    <div class="scat" data-sport="8"><span class="s-ico">🏊</span>Swimming</div>
+    <div class="scat" data-sport="9"><span class="s-ico">🧘</span>Yoga</div>
+    <div class="scat" data-sport="10"><span class="s-ico">⛳</span>Golf</div>
+    <div class="scat" data-sport="11"><span class="s-ico">🥊</span>Boxing</div>
+    <!-- Duplicate set for seamless infinite loop -->
+    <div class="scat" data-sport="0"><span class="s-ico">🏀</span>Basketball</div>
+    <div class="scat" data-sport="1"><span class="s-ico">🥒</span>Pickleball</div>
+    <div class="scat" data-sport="2"><span class="s-ico">🏃</span>Running</div>
+    <div class="scat" data-sport="3"><span class="s-ico">🚴</span>Cycling</div>
+    <div class="scat" data-sport="4"><span class="s-ico">⚽</span>Soccer</div>
+    <div class="scat" data-sport="5"><span class="s-ico">🎾</span>Tennis</div>
+    <div class="scat" data-sport="6"><span class="s-ico">🏐</span>Volleyball</div>
+    <div class="scat" data-sport="7"><span class="s-ico">🏸</span>Badminton</div>
+    <div class="scat" data-sport="8"><span class="s-ico">🏊</span>Swimming</div>
+    <div class="scat" data-sport="9"><span class="s-ico">🧘</span>Yoga</div>
+    <div class="scat" data-sport="10"><span class="s-ico">⛳</span>Golf</div>
+    <div class="scat" data-sport="11"><span class="s-ico">🥊</span>Boxing</div>
   </div>
 </div>
 
@@ -1396,6 +1630,24 @@
     burger.setAttribute('aria-expanded','true');
   });
   navList.querySelectorAll('a').forEach(a=>a.addEventListener('click',closeNav));
+
+  /* ===== SPORT RIBBON — auto-cycle active sport every 7 s (matches slide timing) ===== */
+  (function(){
+    const TOTAL = 12;
+    let active = 0;
+    function setActive(idx){
+      active = ((idx % TOTAL) + TOTAL) % TOTAL;
+      document.querySelectorAll('#scatInner .scat').forEach(function(s){
+        s.classList.toggle('active', +s.dataset.sport === active);
+      });
+    }
+    // Cycle with same 7 s cadence as the hero slideshow
+    setInterval(function(){ setActive(active + 1); }, 7000);
+    // Click to override active sport
+    document.querySelectorAll('#scatInner .scat').forEach(function(s){
+      s.addEventListener('click', function(){ setActive(+s.dataset.sport); });
+    });
+  })();
 
   /* ===== 6. SCROLL REVEAL (IntersectionObserver, staggered children) ===== */
   if(!reduceMotion && 'IntersectionObserver' in window){

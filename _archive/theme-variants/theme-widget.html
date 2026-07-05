@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MatchYard Theme Chooser</title>
+<style>
+  :root {
+    color-scheme: dark;
+    --bg: #080a16;
+    --panel: #111827;
+    --panel-2: #172033;
+    --ink: #f5f8fc;
+    --muted: #9aa7bd;
+    --line: rgba(255, 255, 255, .14);
+    --accent: #2e9dff;
+    --accent-2: #1fe3d2;
+    --radius: 8px;
+    --shadow: 0 24px 70px rgba(0, 0, 0, .35);
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background:
+      linear-gradient(135deg, rgba(46, 157, 255, .13), transparent 34%),
+      linear-gradient(225deg, rgba(31, 227, 210, .09), transparent 32%),
+      var(--bg);
+    color: var(--ink);
+  }
+
+  a { color: inherit; text-decoration: none; }
+
+  .theme-widget {
+    width: min(1420px, calc(100vw - 32px));
+    margin: 0 auto;
+    padding: 28px 0;
+  }
+
+  .widget-head {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: end;
+    gap: 18px;
+    margin-bottom: 18px;
+  }
+
+  .widget-head small {
+    display: block;
+    color: var(--accent-2);
+    font-size: .72rem;
+    font-weight: 800;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+  }
+
+  h1 {
+    margin: 6px 0 0;
+    font-size: clamp(1.7rem, 3vw, 3rem);
+    line-height: 1;
+    letter-spacing: 0;
+  }
+
+  .widget-head p {
+    margin: 8px 0 0;
+    max-width: 680px;
+    color: var(--muted);
+    font-size: .96rem;
+    line-height: 1.55;
+  }
+
+  .current-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 42px;
+    padding: 0 14px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    color: var(--ink);
+    background: rgba(255, 255, 255, .05);
+    font-size: .84rem;
+    font-weight: 800;
+    white-space: nowrap;
+  }
+
+  .layout {
+    display: grid;
+    grid-template-columns: minmax(330px, 430px) minmax(0, 1fr);
+    gap: 16px;
+    align-items: start;
+  }
+
+  .theme-column,
+  .theme-list {
+    display: grid;
+    gap: 10px;
+  }
+
+  .theme-card {
+    width: 100%;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 0;
+    color: var(--ink);
+    background: linear-gradient(145deg, rgba(255, 255, 255, .07), rgba(255, 255, 255, .025));
+    text-align: left;
+    overflow: hidden;
+    transition: border-color .18s ease, transform .18s ease, background .18s ease;
+  }
+
+  .theme-card:hover,
+  .theme-card:focus-within {
+    transform: translateY(-1px);
+    border-color: rgba(255, 255, 255, .34);
+  }
+
+  .theme-card.active {
+    border-color: var(--card-accent);
+    background:
+      linear-gradient(145deg, color-mix(in srgb, var(--card-accent), transparent 82%), rgba(255, 255, 255, .04));
+  }
+
+  .theme-select {
+    width: 100%;
+    border: 0;
+    padding: 14px;
+    color: inherit;
+    background: transparent;
+    text-align: left;
+    cursor: pointer;
+  }
+
+  .theme-select:focus-visible,
+  .remove-theme:focus-visible,
+  .manager button:focus-visible,
+  .manager input:focus-visible {
+    outline: 2px solid var(--card-accent, var(--accent));
+    outline-offset: 2px;
+  }
+
+  .card-top {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 12px;
+    align-items: start;
+  }
+
+  .theme-name {
+    display: block;
+    font-size: 1rem;
+    font-weight: 900;
+    letter-spacing: 0;
+  }
+
+  .theme-tag {
+    display: block;
+    margin-top: 3px;
+    color: var(--muted);
+    font-size: .76rem;
+    line-height: 1.35;
+  }
+
+  .badge {
+    border: 1px solid rgba(255, 255, 255, .16);
+    border-radius: 999px;
+    padding: 4px 8px;
+    color: color-mix(in srgb, var(--card-accent), white 22%);
+    font-size: .62rem;
+    font-weight: 900;
+    letter-spacing: .09em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .card-actions {
+    display: flex;
+    justify-content: flex-end;
+    padding: 0 14px 14px;
+  }
+
+  .remove-theme {
+    border: 1px solid rgba(255, 255, 255, .14);
+    border-radius: 7px;
+    padding: 7px 10px;
+    color: var(--muted);
+    background: rgba(255, 255, 255, .04);
+    font-size: .68rem;
+    font-weight: 900;
+    cursor: pointer;
+  }
+
+  .remove-theme:hover { color: #fff; border-color: rgba(255, 255, 255, .32); }
+
+  .swatches {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 6px;
+    margin-top: 13px;
+  }
+
+  .swatch {
+    height: 28px;
+    border-radius: 6px;
+    border: 1px solid rgba(255, 255, 255, .18);
+    background: var(--swatch);
+  }
+
+  .meta {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-top: 12px;
+    color: var(--muted);
+    font-size: .72rem;
+    line-height: 1.35;
+  }
+
+  .meta strong {
+    display: block;
+    margin-bottom: 2px;
+    color: rgba(255, 255, 255, .92);
+    font-size: .62rem;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+  }
+
+  .manager {
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: rgba(255, 255, 255, .04);
+    overflow: hidden;
+  }
+
+  .manager summary {
+    cursor: pointer;
+    padding: 13px 14px;
+    font-weight: 900;
+  }
+
+  .manager-body {
+    display: grid;
+    gap: 10px;
+    padding: 0 14px 14px;
+  }
+
+  .manager label {
+    display: grid;
+    gap: 5px;
+    color: var(--muted);
+    font-size: .68rem;
+    font-weight: 800;
+    letter-spacing: .05em;
+    text-transform: uppercase;
+  }
+
+  .manager input {
+    min-height: 38px;
+    border: 1px solid var(--line);
+    border-radius: 7px;
+    padding: 0 10px;
+    color: var(--ink);
+    background: rgba(4, 7, 14, .65);
+    font: 500 .82rem inherit;
+    text-transform: none;
+    letter-spacing: 0;
+  }
+
+  .manager-actions {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 8px;
+  }
+
+  .manager button {
+    min-height: 38px;
+    border: 0;
+    border-radius: 7px;
+    padding: 0 12px;
+    color: #06101f;
+    background: var(--accent-2);
+    font-size: .74rem;
+    font-weight: 900;
+    cursor: pointer;
+  }
+
+  .manager button.secondary {
+    border: 1px solid var(--line);
+    color: var(--ink);
+    background: rgba(255, 255, 255, .05);
+  }
+
+  .manager-note,
+  .empty-state {
+    margin: 0;
+    color: var(--muted);
+    font-size: .74rem;
+    line-height: 1.45;
+  }
+
+  .empty-state {
+    border: 1px dashed var(--line);
+    border-radius: var(--radius);
+    padding: 14px;
+  }
+
+  .preview-shell {
+    position: sticky;
+    top: 14px;
+    min-width: 0;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--panel);
+    box-shadow: var(--shadow);
+  }
+
+  .preview-bar {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 12px;
+    align-items: center;
+    min-height: 58px;
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--line);
+    background: rgba(255, 255, 255, .045);
+  }
+
+  .selected-name {
+    display: block;
+    font-weight: 900;
+  }
+
+  .selected-note {
+    display: block;
+    margin-top: 2px;
+    color: var(--muted);
+    font-size: .78rem;
+  }
+
+  .preview-actions {
+    display: flex;
+    gap: 8px;
+  }
+
+  .preview-actions a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 36px;
+    padding: 0 11px;
+    border-radius: 7px;
+    background: var(--accent);
+    color: #06101f;
+    font-size: .75rem;
+    font-weight: 900;
+    white-space: nowrap;
+  }
+
+  .preview-actions a.secondary {
+    border: 1px solid var(--line);
+    background: rgba(255, 255, 255, .05);
+    color: var(--ink);
+  }
+
+  .preview-frame-wrap {
+    position: relative;
+    height: min(74vh, 780px);
+    min-height: 520px;
+    background: #05070e;
+  }
+
+  iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    background: white;
+  }
+
+  .snippet {
+    margin-top: 16px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: rgba(255, 255, 255, .04);
+    overflow: hidden;
+  }
+
+  .snippet summary {
+    cursor: pointer;
+    padding: 13px 14px;
+    font-weight: 900;
+  }
+
+  pre {
+    margin: 0;
+    padding: 0 14px 14px;
+    overflow: auto;
+    color: #dce7f8;
+    font-size: .76rem;
+    line-height: 1.55;
+  }
+
+  code { font-family: "SFMono-Regular", Consolas, monospace; }
+
+  @media (max-width: 980px) {
+    .layout { grid-template-columns: 1fr; }
+    .preview-shell { position: static; }
+    .preview-frame-wrap { height: 620px; min-height: 460px; }
+  }
+
+  @media (max-width: 620px) {
+    .theme-widget { width: min(100vw - 20px, 1420px); padding: 16px 0; }
+    .widget-head { grid-template-columns: 1fr; }
+    .current-link { width: 100%; }
+    .meta { grid-template-columns: 1fr; }
+    .preview-bar { grid-template-columns: 1fr; }
+    .preview-actions { display: grid; grid-template-columns: 1fr 1fr; }
+    .preview-frame-wrap { height: 540px; min-height: 420px; }
+  }
+</style>
+</head>
+<body>
+  <main class="theme-widget" aria-label="MatchYard theme chooser">
+    <header class="widget-head">
+      <div>
+        <small>MatchYard design picker</small>
+        <h1>Theme chooser</h1>
+        <p>Every current visual direction in this folder, summarized by mood, palette, and a live preview. Pick a card to compare the design without hunting through folders.</p>
+      </div>
+      <a class="current-link" href="./index.html" target="_blank" rel="noreferrer">Open current site</a>
+    </header>
+
+    <section class="layout">
+      <div class="theme-column">
+        <details class="manager" open>
+          <summary>Add or remove themes</summary>
+          <form class="manager-body" id="themeForm">
+            <p class="manager-note">Remove buttons hide built-in themes here. Add a custom theme with a relative URL like <code>./theme-orbit/index.html</code>.</p>
+            <label>
+              Theme name
+              <input id="themeNameInput" name="name" placeholder="Example: Court Pro" autocomplete="off">
+            </label>
+            <label>
+              Preview URL
+              <input id="themeUrlInput" name="url" placeholder="./theme-folder/index.html" autocomplete="off">
+            </label>
+            <label>
+              Colors
+              <input id="themeColorsInput" name="colors" placeholder="#080A16, #2E9DFF, #1FE3D2" autocomplete="off">
+            </label>
+            <div class="manager-actions">
+              <button type="submit">Add theme</button>
+              <button class="secondary" type="button" id="resetThemes">Reset</button>
+            </div>
+          </form>
+        </details>
+        <div class="theme-list" id="themeList"></div>
+      </div>
+
+      <aside class="preview-shell" aria-label="Theme preview">
+        <div class="preview-bar">
+          <div>
+            <span class="selected-name" id="selectedName">Current Blue</span>
+            <span class="selected-note" id="selectedNote">Root site, dark app-focused launch page.</span>
+          </div>
+          <div class="preview-actions">
+            <a id="openTheme" href="./index.html" target="_blank" rel="noreferrer">Open full page</a>
+            <a class="secondary" id="openFolder" href="./" target="_blank" rel="noreferrer">Folder</a>
+          </div>
+        </div>
+        <div class="preview-frame-wrap">
+          <iframe id="previewFrame" src="./index.html" title="Selected MatchYard theme preview"></iframe>
+        </div>
+      </aside>
+    </section>
+
+    <details class="snippet">
+      <summary>Embed snippet for this chooser</summary>
+      <pre><code>&lt;iframe
+  src="./theme-widget.html"
+  title="MatchYard theme chooser"
+  style="width:100%;height:760px;border:0;border-radius:8px;background:#080a16;"&gt;
+&lt;/iframe&gt;</code></pre>
+    </details>
+  </main>
+
+<script>
+  const defaultThemes = [
+    {
+      id: "current-blue",
+      name: "Current Blue",
+      status: "Active",
+      url: "./index.html",
+      folder: "./",
+      note: "Root site, dark app-focused launch page.",
+      mood: "Polished, modern, app-store ready.",
+      palette: "Electric blue, cyan, violet, dark navy.",
+      accent: "#2E9DFF",
+      colors: ["#080A16", "#141A33", "#8B6CFF", "#2E9DFF", "#1FE3D2"]
+    },
+    {
+      id: "green",
+      name: "Green",
+      status: "Variant",
+      url: "./theme-green/index.html",
+      folder: "./theme-green/",
+      note: "Same main landing structure with greener sports energy.",
+      mood: "Fresh, athletic, close to the current layout.",
+      palette: "Lime green, cyan, charcoal navy.",
+      accent: "#6DE418",
+      colors: ["#060A14", "#121A28", "#6DE418", "#1FE3D2", "#F2F4F7"]
+    },
+    {
+      id: "navy",
+      name: "Navy",
+      status: "Variant",
+      url: "./theme-navy/index.html",
+      folder: "./theme-navy/",
+      note: "Same landing structure with deeper navy and balanced blue-green accents.",
+      mood: "Trustworthy, clean, more conservative.",
+      palette: "Midnight navy, emerald, ocean blue.",
+      accent: "#00CC78",
+      colors: ["#030D1C", "#091525", "#00CC78", "#00AAEE", "#0077FF"]
+    },
+    {
+      id: "orbit",
+      name: "Orbit",
+      status: "Concept",
+      url: "./theme-orbit/index.html",
+      folder: "./theme-orbit/",
+      note: "Cinematic purple tennis campaign with serif details and app concept screens.",
+      mood: "Editorial, atmospheric, product-story driven.",
+      palette: "Night purple, periwinkle, coral, emerald.",
+      accent: "#8B5CF6",
+      colors: ["#110D21", "#21183A", "#8B5CF6", "#A9B7FF", "#FF6B5F"]
+    },
+    {
+      id: "velocity",
+      name: "Velocity",
+      status: "Concept",
+      url: "./theme-velocity/index.html",
+      folder: "./theme-velocity/",
+      note: "Fast, performance-led hero with strong phone mockup and sports imagery.",
+      mood: "Competitive, sharp, launch-campaign style.",
+      palette: "Dark navy, ice blue, orange, lime.",
+      accent: "#FF5A30",
+      colors: ["#050A16", "#101D34", "#619BFF", "#FF5A30", "#D8FF48"]
+    }
+  ];
+
+  const list = document.querySelector("#themeList");
+  const frame = document.querySelector("#previewFrame");
+  const selectedName = document.querySelector("#selectedName");
+  const selectedNote = document.querySelector("#selectedNote");
+  const openTheme = document.querySelector("#openTheme");
+  const openFolder = document.querySelector("#openFolder");
+  const form = document.querySelector("#themeForm");
+  const resetThemes = document.querySelector("#resetThemes");
+
+  const hiddenKey = "matchyard-hidden-themes";
+  const customKey = "matchyard-custom-themes";
+
+  function readStore(key, fallback) {
+    try {
+      return JSON.parse(localStorage.getItem(key)) || fallback;
+    } catch {
+      return fallback;
+    }
+  }
+
+  function writeStore(key, value) {
+    localStorage.setItem(key, JSON.stringify(value));
+  }
+
+  function getThemes() {
+    const hidden = new Set(readStore(hiddenKey, []));
+    const customThemes = readStore(customKey, []);
+    return [
+      ...defaultThemes.filter(theme => !hidden.has(theme.id)),
+      ...customThemes
+    ];
+  }
+
+  function selectTheme(theme, button) {
+    document.querySelectorAll(".theme-card").forEach(card => card.classList.remove("active"));
+    button.classList.add("active");
+    selectedName.textContent = theme.name;
+    selectedNote.textContent = theme.note;
+    frame.src = theme.url;
+    openTheme.href = theme.url;
+    openFolder.href = theme.folder;
+    localStorage.setItem("matchyard-theme-choice", theme.name);
+  }
+
+  function removeTheme(theme) {
+    if (theme.custom) {
+      writeStore(customKey, readStore(customKey, []).filter(item => item.id !== theme.id));
+    } else {
+      writeStore(hiddenKey, [...new Set([...readStore(hiddenKey, []), theme.id])]);
+    }
+    if (localStorage.getItem("matchyard-theme-choice") === theme.name) {
+      localStorage.removeItem("matchyard-theme-choice");
+    }
+    renderThemes();
+  }
+
+  function renderThemes() {
+    const themes = getThemes();
+    const saved = localStorage.getItem("matchyard-theme-choice");
+    list.innerHTML = "";
+
+    if (!themes.length) {
+      list.innerHTML = `<p class="empty-state">No themes are visible. Use Reset to restore the built-in set, or add a custom theme above.</p>`;
+      selectedName.textContent = "No theme selected";
+      selectedNote.textContent = "Add or restore a theme to preview it.";
+      frame.removeAttribute("src");
+      openTheme.href = "#";
+      openFolder.href = "#";
+      return;
+    }
+
+    let selectedCard;
+    let selectedTheme;
+
+    themes.forEach((theme, index) => {
+      const card = document.createElement("article");
+      card.className = "theme-card";
+      card.style.setProperty("--card-accent", theme.accent);
+      card.innerHTML = `
+      <button class="theme-select" type="button">
+      <span class="card-top">
+        <span>
+          <span class="theme-name">${theme.name}</span>
+          <span class="theme-tag">${theme.note}</span>
+        </span>
+        <span class="badge">${theme.status}</span>
+      </span>
+      <span class="swatches" aria-label="${theme.name} color palette">
+        ${theme.colors.map(color => `<span class="swatch" title="${color}" style="--swatch:${color}"></span>`).join("")}
+      </span>
+      <span class="meta">
+        <span><strong>Mood</strong>${theme.mood}</span>
+        <span><strong>Colors</strong>${theme.palette}</span>
+      </span>
+      </button>
+      <span class="card-actions">
+        <button class="remove-theme" type="button">Remove</button>
+      </span>
+    `;
+      card.querySelector(".theme-select").addEventListener("click", () => selectTheme(theme, card));
+      card.querySelector(".remove-theme").addEventListener("click", () => removeTheme(theme));
+      list.appendChild(card);
+
+      if ((saved && saved === theme.name) || (!saved && index === 0)) {
+        selectedCard = card;
+        selectedTheme = theme;
+      }
+    });
+
+    if (!selectedTheme) {
+      selectedTheme = themes[0];
+      selectedCard = list.querySelector(".theme-card");
+    }
+
+    selectTheme(selectedTheme, selectedCard);
+  }
+
+  form.addEventListener("submit", event => {
+    event.preventDefault();
+    const data = new FormData(form);
+    const name = data.get("name").trim();
+    const url = data.get("url").trim();
+    const colors = data.get("colors").split(",").map(color => color.trim()).filter(Boolean).slice(0, 5);
+    if (!name || !url) return;
+
+    const accent = colors[0] || "#2E9DFF";
+    const customThemes = readStore(customKey, []);
+    customThemes.push({
+      id: `custom-${Date.now()}`,
+      custom: true,
+      name,
+      status: "Custom",
+      url,
+      folder: url.replace(/[^/]*$/, "") || "./",
+      note: "Custom theme added in the chooser.",
+      mood: "User-added preview.",
+      palette: colors.join(", ") || "Custom palette.",
+      accent,
+      colors: colors.length ? colors : ["#080A16", "#2E9DFF", "#1FE3D2"]
+    });
+    writeStore(customKey, customThemes);
+    localStorage.setItem("matchyard-theme-choice", name);
+    form.reset();
+    renderThemes();
+  });
+
+  resetThemes.addEventListener("click", () => {
+    localStorage.removeItem(hiddenKey);
+    localStorage.removeItem(customKey);
+    localStorage.removeItem("matchyard-theme-choice");
+    renderThemes();
+  });
+
+  renderThemes();
+</script>
+</body>
+</html>
