@@ -4,4 +4,4 @@ Allow: /
 # Block the archived old theme variants from indexing
 Disallow: /_archive/
 
-Sitemap: https://matchyard.us/sitemap.xml
+Sitemap: https://www.matchyard.us/sitemap.xml
